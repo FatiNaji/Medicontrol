@@ -1,0 +1,467 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Citas familiares - MediControl</title>
+
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            background: #eef8ff;
+            color: #17243b;
+        }
+
+        .sidebar {
+            position: fixed;
+            left: 0;
+            top: 0;
+            width: 220px;
+            height: 100vh;
+            background: white;
+            border-right: 1px solid #e2ebf3;
+            padding: 20px 15px;
+        }
+
+        .logo {
+            text-align: center;
+            margin-bottom: 28px;
+        }
+
+        .logo img {
+            width: 145px;
+            max-width: 100%;
+        }
+
+        .menu {
+            display: flex;
+            flex-direction: column;
+            gap: 7px;
+        }
+
+        .menu a {
+            text-decoration: none;
+            color: #17243b;
+            padding: 12px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            gap: 11px;
+            font-size: 14px;
+        }
+
+        .menu a:hover,
+        .menu a.activo {
+            background: #dcefff;
+            color: #0878d1;
+        }
+
+        .menu i {
+            width: 20px;
+            text-align: center;
+        }
+
+        .cerrar {
+            margin-top: 18px;
+            color: #d9534f !important;
+        }
+
+        .contenido {
+            margin-left: 220px;
+            padding: 35px;
+        }
+
+        .encabezado {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+            gap: 20px;
+        }
+
+        .encabezado h1 {
+            font-size: 28px;
+            margin-bottom: 7px;
+        }
+
+        .encabezado p {
+            color: #65758b;
+        }
+
+        .btn-agregar {
+            background: #0878d1;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            padding: 11px 17px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+        .btn-agregar:hover {
+            background: #0668b5;
+        }
+
+        .seccion {
+            margin-bottom: 28px;
+        }
+
+        .seccion h2 {
+            font-size: 19px;
+            margin-bottom: 15px;
+        }
+
+        .citas {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+        }
+
+        .tarjeta {
+            background: white;
+            border: 1px solid #e4edf5;
+            border-radius: 12px;
+            padding: 22px;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.04);
+        }
+
+        .persona {
+            display: flex;
+            align-items: center;
+            gap: 13px;
+            padding-bottom: 16px;
+            border-bottom: 1px solid #edf2f7;
+            margin-bottom: 16px;
+        }
+
+        .avatar {
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            background: #dcefff;
+            color: #0878d1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+        }
+
+        .persona h3 {
+            font-size: 17px;
+            margin-bottom: 4px;
+        }
+
+        .persona p {
+            color: #718096;
+            font-size: 13px;
+        }
+
+        .cita-principal {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 18px;
+        }
+
+        .fecha {
+            min-width: 58px;
+            height: 62px;
+            border-radius: 9px;
+            background: #e6f4ff;
+            color: #0878d1;
+            text-align: center;
+            padding-top: 8px;
+        }
+
+        .fecha strong {
+            display: block;
+            font-size: 21px;
+        }
+
+        .fecha span {
+            font-size: 11px;
+            text-transform: uppercase;
+        }
+
+        .detalle h4 {
+            font-size: 16px;
+            margin-bottom: 7px;
+        }
+
+        .detalle p {
+            color: #65758b;
+            font-size: 13px;
+            margin-bottom: 5px;
+        }
+
+        .estado {
+            display: inline-block;
+            margin-top: 5px;
+            background: #e7f7ed;
+            color: #27834a;
+            padding: 5px 9px;
+            border-radius: 15px;
+            font-size: 12px;
+        }
+
+        .acciones {
+            display: flex;
+            gap: 8px;
+        }
+
+        .acciones button {
+            border: 1px solid #dce6ef;
+            color: #0878d1;
+            padding: 9px 12px;
+            border-radius: 7px;
+            font-size: 12px;
+            background: white;
+            cursor: pointer;
+        }
+
+        .acciones button:hover {
+            background: #eaf6ff;
+        }
+
+        .aviso {
+            margin-top: 25px;
+            background: #fff4d6;
+            border: 1px solid #f2d27a;
+            border-radius: 10px;
+            padding: 15px;
+            color: #715500;
+            font-size: 13px;
+        }
+
+        .aviso i {
+            margin-right: 7px;
+        }
+
+        @media (max-width: 850px) {
+            .citas {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 700px) {
+            .sidebar {
+                position: relative;
+                width: 100%;
+                height: auto;
+            }
+
+            .contenido {
+                margin-left: 0;
+                padding: 20px;
+            }
+
+            .encabezado {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <aside class="sidebar">
+
+        <div class="logo">
+            <img src="assets/logo.png" alt="MediControl">
+        </div>
+
+        <nav class="menu">
+
+            <a href="apoderado.html">
+                <i class="fa-solid fa-house"></i>
+                Inicio
+            </a>
+
+            <a href="familiares.html">
+                <i class="fa-solid fa-users"></i>
+                Mis familiares
+            </a>
+
+            <a href="citas_familiares.html" class="activo">
+                <i class="fa-solid fa-calendar-check"></i>
+                Citas familiares
+            </a>
+
+            <a href="historial_familiar.html">
+                <i class="fa-solid fa-file-medical"></i>
+                Historial familiar
+            </a>
+
+            <a href="recordatorios.html">
+                <i class="fa-solid fa-bell"></i>
+                Recordatorios
+            </a>
+
+            <a href="perfil.html">
+                <i class="fa-solid fa-user"></i>
+                Mi perfil
+            </a>
+
+            <a href="index.html" class="cerrar">
+                <i class="fa-solid fa-right-from-bracket"></i>
+                Cerrar sesión
+            </a>
+
+        </nav>
+    </aside>
+
+
+    <main class="contenido">
+
+        <div class="encabezado">
+            <div>
+                <h1>Citas familiares</h1>
+                <p>Consulta y organiza las próximas citas de tus familiares.</p>
+            </div>
+
+            <button class="btn-agregar" onclick="agregarCita()">
+                <i class="fa-solid fa-plus"></i>
+                Agregar cita
+            </button>
+        </div>
+
+
+        <section class="seccion">
+
+            <h2>Próximas citas</h2>
+
+            <div class="citas">
+
+                <div class="tarjeta">
+
+                    <div class="persona">
+                        <div class="avatar">
+                            <i class="fa-solid fa-user"></i>
+                        </div>
+
+                        <div>
+                            <h3>Lucía Gutiérrez</h3>
+                            <p>Madre · 56 años</p>
+                        </div>
+                    </div>
+
+                    <div class="cita-principal">
+
+                        <div class="fecha">
+                            <strong>20</strong>
+                            <span>Sep</span>
+                        </div>
+
+                        <div class="detalle">
+                            <h4>Medicina general</h4>
+                            <p><i class="fa-regular fa-clock"></i> 10:30 AM</p>
+                            <p><i class="fa-solid fa-location-dot"></i> Clínica Arequipa</p>
+
+                            <span class="estado">
+                                <i class="fa-solid fa-circle-check"></i>
+                                Confirmada
+                            </span>
+                        </div>
+
+                    </div>
+
+                    <div class="acciones">
+                        <button onclick="editarCita('Lucía Gutiérrez')">
+                            <i class="fa-solid fa-pen"></i>
+                            Editar
+                        </button>
+
+                        <button onclick="cancelarCita('Lucía Gutiérrez')">
+                            <i class="fa-solid fa-xmark"></i>
+                            Cancelar
+                        </button>
+                    </div>
+
+                </div>
+
+
+                <div class="tarjeta">
+
+                    <div class="persona">
+                        <div class="avatar">
+                            <i class="fa-solid fa-user"></i>
+                        </div>
+
+                        <div>
+                            <h3>María Salas</h3>
+                            <p>Madre · 58 años</p>
+                        </div>
+                    </div>
+
+                    <div class="cita-principal">
+
+                        <div class="fecha">
+                            <strong>24</strong>
+                            <span>Sep</span>
+                        </div>
+
+                        <div class="detalle">
+                            <h4>Control médico</h4>
+                            <p><i class="fa-regular fa-clock"></i> 09:00 AM</p>
+                            <p><i class="fa-solid fa-location-dot"></i> Centro de Salud</p>
+
+                            <span class="estado">
+                                <i class="fa-solid fa-circle-check"></i>
+                                Confirmada
+                            </span>
+                        </div>
+
+                    </div>
+
+                    <div class="acciones">
+                        <button onclick="editarCita('María Salas')">
+                            <i class="fa-solid fa-pen"></i>
+                            Editar
+                        </button>
+
+                        <button onclick="cancelarCita('María Salas')">
+                            <i class="fa-solid fa-xmark"></i>
+                            Cancelar
+                        </button>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <div class="aviso">
+            <i class="fa-solid fa-circle-info"></i>
+            Recuerda revisar las citas de tus familiares para acompañarlos y evitar olvidar sus controles médicos.
+        </div>
+
+    </main>
+
+
+    <script>
+        function agregarCita() {
+            alert("Aquí podrás registrar una nueva cita familiar.");
+        }
+
+        function editarCita(nombre) {
+            alert("Aquí podrás editar la cita de " + nombre + ".");
+        }
+
+        function cancelarCita(nombre) {
+            alert("La cita de " + nombre + " ha sido seleccionada para cancelar.");
+        }
+    </script>
+
+</body>
+</html>

@@ -1,0 +1,794 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+        content="width=device-width, initial-scale=1.0">
+
+    <title>MediControl - Calendario</title>
+
+    <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+
+    <style>
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+
+            background: #eef8ff;
+
+            color: #17243b;
+        }
+
+        a {
+            text-decoration: none;
+        }
+
+        .app {
+            display: flex;
+
+            min-height: 100vh;
+        }
+
+
+        /* SIDEBAR */
+
+        .sidebar {
+            width: 220px;
+
+            min-height: 100vh;
+
+            background: white;
+
+            border-right: 1px solid #e2ebf3;
+
+            padding: 18px 14px;
+
+            position: fixed;
+
+            left: 0;
+            top: 0;
+            bottom: 0;
+        }
+
+        .logo {
+            padding: 5px 7px 22px;
+        }
+
+        .logo img {
+            width: 145px;
+        }
+
+        .menu {
+            display: flex;
+
+            flex-direction: column;
+
+            gap: 5px;
+        }
+
+        .menu a {
+            display: flex;
+
+            align-items: center;
+
+            gap: 12px;
+
+            padding: 11px 12px;
+
+            border-radius: 7px;
+
+            color: #566579;
+
+            font-size: 13px;
+        }
+
+        .menu a i {
+            width: 18px;
+
+            text-align: center;
+        }
+
+        .menu a:hover,
+        .menu a.active {
+            background: #dcefff;
+
+            color: #0878d1;
+        }
+
+        .menu a.active {
+            font-weight: bold;
+        }
+
+        .logout {
+            position: absolute;
+
+            bottom: 25px;
+
+            left: 14px;
+            right: 14px;
+        }
+
+        .logout a {
+            display: flex;
+
+            align-items: center;
+
+            gap: 12px;
+
+            color: #596579;
+
+            padding: 11px 12px;
+
+            font-size: 13px;
+        }
+
+
+        /* CONTENIDO */
+
+        .content {
+            margin-left: 220px;
+
+            width: calc(100% - 220px);
+
+            padding: 30px 35px;
+        }
+
+        .header {
+            display: flex;
+
+            justify-content: space-between;
+
+            align-items: center;
+
+            margin-bottom: 20px;
+        }
+
+        .header h1 {
+            font-size: 24px;
+
+            margin-bottom: 5px;
+        }
+
+        .header p {
+            font-size: 12px;
+
+            color: #68778a;
+        }
+
+
+        /* ALERTA */
+
+        .alert {
+            background: #fff7df;
+
+            border: 1px solid #f1d987;
+
+            color: #896500;
+
+            padding: 13px;
+
+            border-radius: 8px;
+
+            margin-bottom: 18px;
+
+            font-size: 11px;
+        }
+
+
+        /* CALENDARIO */
+
+        .calendar {
+            background: white;
+
+            border: 1px solid #e4edf5;
+
+            border-radius: 10px;
+
+            padding: 20px;
+        }
+
+        .calendar-title {
+            display: flex;
+
+            justify-content: space-between;
+
+            align-items: center;
+
+            margin-bottom: 20px;
+        }
+
+        .calendar-title h2 {
+            font-size: 18px;
+        }
+
+        .month-buttons button {
+            border: 1px solid #dce7ef;
+
+            background: white;
+
+            color: #0878d1;
+
+            width: 32px;
+
+            height: 32px;
+
+            border-radius: 6px;
+
+            cursor: pointer;
+        }
+
+        .week {
+            display: grid;
+
+            grid-template-columns:
+                repeat(7, 1fr);
+
+            gap: 5px;
+
+            margin-bottom: 5px;
+        }
+
+        .week div {
+            text-align: center;
+
+            padding: 8px;
+
+            color: #718096;
+
+            font-size: 10px;
+
+            font-weight: bold;
+        }
+
+        .days {
+            display: grid;
+
+            grid-template-columns:
+                repeat(7, 1fr);
+
+            gap: 5px;
+        }
+
+        .day {
+            min-height: 75px;
+
+            border: 1px solid #edf2f6;
+
+            border-radius: 7px;
+
+            padding: 7px;
+        }
+
+        .day.today {
+            border: 2px solid #0878d1;
+
+            background: #edf7ff;
+        }
+
+        .day-number {
+            font-size: 11px;
+
+            font-weight: bold;
+        }
+
+        .medicine {
+            background: #e3f4ff;
+
+            color: #0878d1;
+
+            padding: 4px;
+
+            margin-top: 8px;
+
+            border-radius: 4px;
+
+            font-size: 8px;
+
+            font-weight: bold;
+        }
+
+
+        /* MEDICAMENTOS */
+
+        .medications {
+            display: grid;
+
+            grid-template-columns:
+                repeat(3, 1fr);
+
+            gap: 15px;
+
+            margin-top: 18px;
+        }
+
+        .medicine-card {
+            background: white;
+
+            border: 1px solid #e4edf5;
+
+            border-radius: 9px;
+
+            padding: 16px;
+        }
+
+        .medicine-card h3 {
+            font-size: 13px;
+
+            margin-bottom: 5px;
+        }
+
+        .medicine-card p {
+            color: #718096;
+
+            font-size: 10px;
+
+            margin-bottom: 10px;
+        }
+
+        .remaining {
+            color: #0878d1 !important;
+
+            font-weight: bold;
+        }
+
+        .warning {
+            color: #d28b00 !important;
+        }
+
+
+        /* RESPONSIVE */
+
+        @media (max-width: 850px) {
+
+            .sidebar {
+                width: 190px;
+            }
+
+            .content {
+                margin-left: 190px;
+
+                width: calc(100% - 190px);
+            }
+
+            .medications {
+                grid-template-columns: 1fr;
+            }
+
+        }
+
+        @media (max-width: 650px) {
+
+            .app {
+                display: block;
+            }
+
+            .sidebar {
+                position: relative;
+
+                width: 100%;
+
+                min-height: auto;
+
+                border-right: none;
+
+                border-bottom: 1px solid #e2ebf3;
+            }
+
+            .menu {
+                flex-direction: row;
+
+                overflow-x: auto;
+            }
+
+            .menu a {
+                flex-shrink: 0;
+            }
+
+            .menu a span {
+                display: none;
+            }
+
+            .logout {
+                display: none;
+            }
+
+            .content {
+                margin-left: 0;
+
+                width: 100%;
+
+                padding: 20px 15px;
+            }
+
+            .day {
+                min-height: 55px;
+            }
+
+            .medicine {
+                font-size: 7px;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<div class="app">
+
+
+    <!-- SIDEBAR -->
+
+    <aside class="sidebar">
+
+
+        <div class="logo">
+
+            <img
+                src="assets/logo.png"
+                alt="MediControl">
+
+        </div>
+
+
+        <nav class="menu">
+
+
+            <a href="paciente.html">
+
+                <i class="fa-solid fa-house"></i>
+
+                <span>
+                    Inicio
+                </span>
+
+            </a>
+
+
+            <a href="historial.html">
+
+                <i class="fa-solid fa-file-medical"></i>
+
+                <span>
+                    Mi historial
+                </span>
+
+            </a>
+
+
+            <a href="#">
+
+                <i class="fa-solid fa-pills"></i>
+
+                <span>
+                    Mis tratamientos
+                </span>
+
+            </a>
+
+
+            <a
+                href="calendario.html"
+                class="active">
+
+                <i class="fa-solid fa-calendar-days"></i>
+
+                <span>
+                    Calendario
+                </span>
+
+            </a>
+
+
+            <a href="recordatorios.html">
+
+                <i class="fa-solid fa-bell"></i>
+
+                <span>
+                    Recordatorios
+                </span>
+
+            </a>
+
+
+            <a href="#">
+
+                <i class="fa-solid fa-user"></i>
+
+                <span>
+                    Mi perfil
+                </span>
+
+            </a>
+
+        </nav>
+
+
+        <div class="logout">
+
+            <a href="index.html">
+
+                <i class="fa-solid fa-right-from-bracket"></i>
+
+                <span>
+                    Cerrar sesión
+                </span>
+
+            </a>
+
+        </div>
+
+    </aside>
+
+
+
+    <!-- CONTENIDO -->
+
+    <main class="content">
+
+
+        <div class="header">
+
+            <div>
+
+                <h1>
+                    Calendario
+                </h1>
+
+                <p>
+                    Mantén al día tus medicamentos.
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <!-- ALERTA -->
+
+        <div class="alert">
+
+            <i class="fa-solid fa-triangle-exclamation"></i>
+
+            <strong>
+                Atención:
+            </strong>
+
+            Metformina tiene solo 6 pastillas restantes.
+
+        </div>
+
+
+
+        <!-- CALENDARIO -->
+
+        <section class="calendar">
+
+
+            <div class="calendar-title">
+
+                <h2>
+                    Septiembre 2026
+                </h2>
+
+
+                <div class="month-buttons">
+
+                    <button>
+                        ‹
+                    </button>
+
+                    <button>
+                        ›
+                    </button>
+
+                </div>
+
+            </div>
+
+
+
+            <div class="week">
+
+                <div>LUN</div>
+                <div>MAR</div>
+                <div>MIÉ</div>
+                <div>JUE</div>
+                <div>VIE</div>
+                <div>SÁB</div>
+                <div>DOM</div>
+
+            </div>
+
+
+
+            <div class="days">
+
+
+                <div class="day">
+                    <span class="day-number">1</span>
+                </div>
+
+                <div class="day">
+                    <span class="day-number">2</span>
+                </div>
+
+                <div class="day">
+                    <span class="day-number">3</span>
+                </div>
+
+                <div class="day">
+                    <span class="day-number">4</span>
+                </div>
+
+                <div class="day">
+                    <span class="day-number">5</span>
+                </div>
+
+                <div class="day">
+                    <span class="day-number">6</span>
+                </div>
+
+                <div class="day">
+                    <span class="day-number">7</span>
+                </div>
+
+
+                <div class="day">
+                    <span class="day-number">8</span>
+                    <div class="medicine">Metformina</div>
+                </div>
+
+                <div class="day">
+                    <span class="day-number">9</span>
+                    <div class="medicine">Metformina</div>
+                </div>
+
+                <div class="day today">
+                    <span class="day-number">10</span>
+                    <div class="medicine">08:00 AM</div>
+                    <div class="medicine">08:00 PM</div>
+                </div>
+
+                <div class="day">
+                    <span class="day-number">11</span>
+                    <div class="medicine">Metformina</div>
+                </div>
+
+                <div class="day">
+                    <span class="day-number">12</span>
+                    <div class="medicine">Metformina</div>
+                </div>
+
+                <div class="day">
+                    <span class="day-number">13</span>
+                </div>
+
+                <div class="day">
+                    <span class="day-number">14</span>
+                </div>
+
+
+                <div class="day">
+                    <span class="day-number">15</span>
+                    <div class="medicine">Metformina</div>
+                </div>
+
+                <div class="day">
+                    <span class="day-number">16</span>
+                    <div class="medicine">Metformina</div>
+                </div>
+
+                <div class="day">
+                    <span class="day-number">17</span>
+                    <div class="medicine">08:00 AM</div>
+                </div>
+
+                <div class="day">
+                    <span class="day-number">18</span>
+                    <div class="medicine">Metformina</div>
+                </div>
+
+                <div class="day">
+                    <span class="day-number">19</span>
+                    <div class="medicine">Metformina</div>
+                </div>
+
+                <div class="day">
+                    <span class="day-number">20</span>
+                </div>
+
+                <div class="day">
+                    <span class="day-number">21</span>
+                </div>
+
+            </div>
+
+        </section>
+
+
+
+        <!-- MEDICAMENTOS -->
+
+        <section class="medications">
+
+
+            <div class="medicine-card">
+
+                <h3>
+                    💊 Metformina
+                </h3>
+
+                <p>
+                    500 mg · 1 cada 12 horas
+                </p>
+
+                <p class="remaining">
+                    6 pastillas restantes
+                </p>
+
+                <p class="warning">
+                    ⚠ Está por acabarse
+                </p>
+
+            </div>
+
+
+            <div class="medicine-card">
+
+                <h3>
+                    💊 Losartán
+                </h3>
+
+                <p>
+                    50 mg · 1 al día
+                </p>
+
+                <p class="remaining">
+                    18 pastillas restantes
+                </p>
+
+            </div>
+
+
+            <div class="medicine-card">
+
+                <h3>
+                    💊 Omeprazol
+                </h3>
+
+                <p>
+                    20 mg · 1 al día
+                </p>
+
+                <p class="remaining">
+                    25 pastillas restantes
+                </p>
+
+            </div>
+
+        </section>
+
+
+    </main>
+
+</div>
+
+
+</body>
+
+</html>

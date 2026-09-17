@@ -1,0 +1,595 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Recordatorios - MediControl</title>
+
+    <!-- Iconos -->
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            background: #eef8ff;
+            color: #17243b;
+        }
+
+        /* BARRA LATERAL */
+        .sidebar {
+            position: fixed;
+            left: 0;
+            top: 0;
+            width: 220px;
+            height: 100vh;
+            background: white;
+            border-right: 1px solid #e2ebf3;
+            padding: 20px 15px;
+        }
+
+        .logo {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .logo img {
+            width: 150px;
+            max-width: 100%;
+        }
+
+        .menu {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .menu a {
+            text-decoration: none;
+            color: #17243b;
+            padding: 13px 12px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 15px;
+        }
+
+        .menu a:hover,
+        .menu a.activo {
+            background: #dcefff;
+            color: #0878d1;
+        }
+
+        .menu i {
+            width: 20px;
+            text-align: center;
+        }
+
+        .cerrar {
+            margin-top: 25px;
+            color: #d9534f !important;
+        }
+
+        /* CONTENIDO */
+        .contenido {
+            margin-left: 220px;
+            padding: 35px;
+        }
+
+        .encabezado {
+            margin-bottom: 25px;
+        }
+
+        .encabezado h1 {
+            font-size: 30px;
+            margin-bottom: 8px;
+        }
+
+        .encabezado p {
+            color: #65758b;
+        }
+
+        /* ALERTA */
+        .alerta {
+            background: #fff4d6;
+            border: 1px solid #f2d27a;
+            padding: 16px;
+            border-radius: 10px;
+            margin-bottom: 25px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .alerta i {
+            color: #d99a00;
+            font-size: 22px;
+        }
+
+        .alerta strong {
+            display: block;
+            margin-bottom: 4px;
+        }
+
+        /* RECORDATORIOS */
+        .recordatorios {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+        }
+
+        .tarjeta {
+            background: white;
+            border: 1px solid #e4edf5;
+            border-radius: 12px;
+            padding: 22px;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.04);
+        }
+
+        .tarjeta-cabecera {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 18px;
+        }
+
+        .medicamento {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .icono-medicina {
+            width: 45px;
+            height: 45px;
+            background: #e6f4ff;
+            color: #0878d1;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+        }
+
+        .medicamento h3 {
+            margin-bottom: 4px;
+        }
+
+        .medicamento p {
+            color: #718096;
+            font-size: 13px;
+        }
+
+        .hora {
+            font-size: 25px;
+            font-weight: bold;
+            color: #0878d1;
+            margin-bottom: 8px;
+        }
+
+        .informacion {
+            color: #65758b;
+            font-size: 14px;
+            margin-bottom: 8px;
+        }
+
+        .pastillas {
+            font-weight: bold;
+            margin-bottom: 15px;
+        }
+
+        .pocas {
+            color: #d88b00;
+        }
+
+        /* BOTÓN */
+        .btn-alarma {
+            border: none;
+            background: #0878d1;
+            color: white;
+            padding: 10px 16px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+        .btn-alarma:hover {
+            background: #0668b5;
+        }
+
+        /* INTERRUPTOR */
+        .interruptor {
+            width: 48px;
+            height: 26px;
+            background: #0878d1;
+            border-radius: 20px;
+            position: relative;
+        }
+
+        .interruptor {
+            border: none;
+            cursor: pointer;
+            padding: 0;
+        }
+
+        .interruptor::after {
+            content: "";
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            background: white;
+            border-radius: 50%;
+            top: 3px;
+            right: 3px;
+            transition: 0.2s;
+        }
+
+        .interruptor:not(.activo) {
+            background: #cbd5e1;
+        }
+
+        .interruptor:not(.activo)::after {
+            right: 25px;
+        }
+
+        /* BOTONES INFERIORES */
+        .acciones {
+            margin-top: 25px;
+            display: flex;
+            gap: 12px;
+        }
+
+        .acciones a {
+            text-decoration: none;
+            background: white;
+            border: 1px solid #dce6ef;
+            color: #0878d1;
+            padding: 11px 17px;
+            border-radius: 8px;
+        }
+
+        .acciones a:hover {
+            background: #eaf6ff;
+        }
+
+        /* RESPONSIVE */
+        @media (max-width: 800px) {
+            .sidebar {
+                position: relative;
+                width: 100%;
+                height: auto;
+            }
+
+            .contenido {
+                margin-left: 0;
+                padding: 20px;
+            }
+
+            .recordatorios {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- MENÚ LATERAL -->
+    <aside class="sidebar">
+
+        <div class="logo">
+            <img src="assets/logo.png" alt="MediControl">
+        </div>
+
+        <nav class="menu">
+
+            <a href="paciente.html">
+                <i class="fa-solid fa-house"></i>
+                Inicio
+            </a>
+
+            <a href="historial.html">
+                <i class="fa-solid fa-file-lines"></i>
+                Mi historial
+            </a>
+
+            <a href="tratamientos.html">
+                <i class="fa-solid fa-pills"></i>
+                Mis tratamientos
+            </a>
+
+            <a href="calendario.html">
+                <i class="fa-solid fa-calendar-days"></i>
+                Calendario
+            </a>
+
+            <a href="recordatorios.html" class="activo">
+                <i class="fa-solid fa-bell"></i>
+                Recordatorios
+            </a>
+
+            <a href="perfil.html">
+                <i class="fa-solid fa-user"></i>
+                Mi perfil
+            </a>
+
+            <a href="index.html" class="cerrar">
+                <i class="fa-solid fa-right-from-bracket"></i>
+                Cerrar sesión
+            </a>
+
+        </nav>
+    </aside>
+
+
+    <!-- CONTENIDO PRINCIPAL -->
+    <main class="contenido">
+
+        <div class="encabezado">
+            <h1>Recordatorios</h1>
+            <p>Horarios para tomar tus medicamentos.</p>
+        </div>
+
+
+        <!-- ALERTA -->
+        <div class="alerta">
+            <i class="fa-solid fa-triangle-exclamation"></i>
+
+            <div>
+                <strong>Medicamento por agotarse</strong>
+                <span>
+                    La Metformina tiene solo 6 pastillas restantes.
+                    Recuerda comprar más antes de que se termine.
+                </span>
+            </div>
+        </div>
+
+
+        <!-- TARJETAS -->
+        <section class="recordatorios">
+
+            <!-- METFORMINA 8 AM -->
+            <div class="tarjeta">
+
+                <div class="tarjeta-cabecera">
+
+                    <div class="medicamento">
+
+                        <div class="icono-medicina">
+                            <i class="fa-solid fa-pills"></i>
+                        </div>
+
+                        <div>
+                            <h3>Metformina 500 mg</h3>
+                            <p>Tomar 1 pastilla</p>
+                        </div>
+
+                    </div>
+
+                    <button class="interruptor activo" type="button" onclick="cambiarRecordatorio(this)" aria-label="Activar o desactivar recordatorio"></button>
+
+                </div>
+
+                <div class="hora">
+                    08:00 AM
+                </div>
+
+                <div class="informacion">
+                    Cada 12 horas
+                </div>
+
+                <div class="pastillas pocas">
+                    6 pastillas restantes
+                </div>
+
+                <button class="btn-alarma" onclick="probarAlarma()">
+                    <i class="fa-solid fa-bell"></i>
+                    Probar alarma
+                </button>
+
+            </div>
+
+
+            <!-- METFORMINA 8 PM -->
+            <div class="tarjeta">
+
+                <div class="tarjeta-cabecera">
+
+                    <div class="medicamento">
+
+                        <div class="icono-medicina">
+                            <i class="fa-solid fa-pills"></i>
+                        </div>
+
+                        <div>
+                            <h3>Metformina 500 mg</h3>
+                            <p>Tomar 1 pastilla</p>
+                        </div>
+
+                    </div>
+
+                    <button class="interruptor activo" type="button" onclick="cambiarRecordatorio(this)" aria-label="Activar o desactivar recordatorio"></button>
+
+                </div>
+
+                <div class="hora">
+                    08:00 PM
+                </div>
+
+                <div class="informacion">
+                    Cada 12 horas
+                </div>
+
+                <div class="pastillas pocas">
+                    6 pastillas restantes
+                </div>
+
+                <button class="btn-alarma" onclick="probarAlarma()">
+                    <i class="fa-solid fa-bell"></i>
+                    Probar alarma
+                </button>
+
+            </div>
+
+
+            <!-- LOSARTÁN -->
+            <div class="tarjeta">
+
+                <div class="tarjeta-cabecera">
+
+                    <div class="medicamento">
+
+                        <div class="icono-medicina">
+                            <i class="fa-solid fa-capsules"></i>
+                        </div>
+
+                        <div>
+                            <h3>Losartán 50 mg</h3>
+                            <p>Tomar 1 pastilla</p>
+                        </div>
+
+                    </div>
+
+                    <button class="interruptor activo" type="button" onclick="cambiarRecordatorio(this)" aria-label="Activar o desactivar recordatorio"></button>
+
+                </div>
+
+                <div class="hora">
+                    08:00 PM
+                </div>
+
+                <div class="informacion">
+                    Cada 24 horas
+                </div>
+
+                <div class="pastillas">
+                    18 pastillas restantes
+                </div>
+
+                <button class="btn-alarma" onclick="probarAlarma()">
+                    <i class="fa-solid fa-bell"></i>
+                    Probar alarma
+                </button>
+
+            </div>
+
+
+            <!-- OMEPRAZOL -->
+            <div class="tarjeta">
+
+                <div class="tarjeta-cabecera">
+
+                    <div class="medicamento">
+
+                        <div class="icono-medicina">
+                            <i class="fa-solid fa-capsules"></i>
+                        </div>
+
+                        <div>
+                            <h3>Omeprazol 20 mg</h3>
+                            <p>Tomar 1 pastilla</p>
+                        </div>
+
+                    </div>
+
+                    <button class="interruptor activo" type="button" onclick="cambiarRecordatorio(this)" aria-label="Activar o desactivar recordatorio"></button>
+
+                </div>
+
+                <div class="hora">
+                    07:00 AM
+                </div>
+
+                <div class="informacion">
+                    Cada 24 horas
+                </div>
+
+                <div class="pastillas">
+                    25 pastillas restantes
+                </div>
+
+                <button class="btn-alarma" onclick="probarAlarma()">
+                    <i class="fa-solid fa-bell"></i>
+                    Probar alarma
+                </button>
+
+            </div>
+
+        </section>
+
+
+        <!-- ACCIONES -->
+        <div class="acciones">
+
+            <a href="calendario.html">
+                <i class="fa-solid fa-calendar-days"></i>
+                Ver calendario
+            </a>
+
+            <a href="paciente.html">
+                <i class="fa-solid fa-house"></i>
+                Volver al inicio
+            </a>
+
+        </div>
+
+    </main>
+
+
+    <!-- ALARMA -->
+    <script>
+
+        const sonidoAlarma = new Audio("assets/alarma.mp3");
+
+        function cambiarRecordatorio(boton) {
+            boton.classList.toggle("activo");
+
+            if (boton.classList.contains("activo")) {
+                boton.setAttribute("aria-label", "Desactivar recordatorio");
+                alert("🔔 Recordatorio activado");
+            } else {
+                boton.setAttribute("aria-label", "Activar recordatorio");
+                alert("🔕 Recordatorio desactivado");
+            }
+        }
+
+        function probarAlarma() {
+            sonidoAlarma.currentTime = 0;
+            sonidoAlarma.play();
+            alert("🔔 ¡Es hora de tomar tu medicamento!");
+        }
+
+        // Revisar la hora
+        setInterval(function () {
+
+            const ahora = new Date();
+
+            const hora = ahora.getHours();
+            const minutos = ahora.getMinutes();
+            const segundos = ahora.getSeconds();
+
+            // 08:00 AM
+            if (hora === 8 && minutos === 0 && segundos === 0) {
+                sonidoAlarma.currentTime = 0;
+                sonidoAlarma.play();
+            }
+
+            // 08:00 PM
+            if (hora === 20 && minutos === 0 && segundos === 0) {
+                sonidoAlarma.currentTime = 0;
+                sonidoAlarma.play();
+            }
+
+        }, 1000);
+
+    </script>
+
+</body>
+</html>

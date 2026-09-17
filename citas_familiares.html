@@ -1,0 +1,479 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Citas de familiares - MediControl</title>
+
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            background: #eef8ff;
+            color: #17243b;
+        }
+
+        .sidebar {
+            position: fixed;
+            left: 0;
+            top: 0;
+            width: 220px;
+            height: 100vh;
+            background: white;
+            border-right: 1px solid #e2ebf3;
+            padding: 20px 15px;
+        }
+
+        .logo {
+            text-align: center;
+            margin-bottom: 28px;
+        }
+
+        .logo img {
+            width: 145px;
+            max-width: 100%;
+        }
+
+        .menu {
+            display: flex;
+            flex-direction: column;
+            gap: 7px;
+        }
+
+        .menu a {
+            text-decoration: none;
+            color: #17243b;
+            padding: 12px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            gap: 11px;
+            font-size: 14px;
+        }
+
+        .menu a:hover,
+        .menu a.activo {
+            background: #dcefff;
+            color: #0878d1;
+        }
+
+        .menu i {
+            width: 20px;
+            text-align: center;
+        }
+
+        .cerrar {
+            margin-top: 18px;
+            color: #d9534f !important;
+        }
+
+        .contenido {
+            margin-left: 220px;
+            padding: 35px;
+        }
+
+        .encabezado {
+            margin-bottom: 22px;
+        }
+
+        .encabezado h1 {
+            font-size: 28px;
+            margin-bottom: 7px;
+        }
+
+        .encabezado p {
+            color: #65758b;
+        }
+
+        .selector {
+            margin-bottom: 20px;
+        }
+
+        .selector label {
+            display: block;
+            font-size: 13px;
+            margin-bottom: 7px;
+            color: #53657a;
+        }
+
+        .selector select {
+            width: 100%;
+            max-width: 620px;
+            padding: 12px 14px;
+            border: 1px solid #d9e5ee;
+            border-radius: 8px;
+            background: white;
+            color: #17243b;
+            font-size: 14px;
+            outline: none;
+        }
+
+        .barra-citas {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border-bottom: 1px solid #dce6ef;
+            margin-bottom: 18px;
+        }
+
+        .pestanas {
+            display: flex;
+            gap: 8px;
+        }
+
+        .pestana {
+            border: none;
+            background: transparent;
+            padding: 12px 16px;
+            color: #65758b;
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+        .pestana.activa {
+            color: #0878d1;
+            border-bottom: 3px solid #0878d1;
+            font-weight: bold;
+        }
+
+        .btn-nueva {
+            background: #0878d1;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            padding: 11px 16px;
+            cursor: pointer;
+            font-size: 14px;
+            margin-bottom: 8px;
+        }
+
+        .btn-nueva:hover {
+            background: #0668b5;
+        }
+
+        .lista-citas {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .cita {
+            background: white;
+            border: 1px solid #e4edf5;
+            border-radius: 10px;
+            padding: 14px;
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            box-shadow: 0 2px 7px rgba(0,0,0,0.03);
+        }
+
+        .fecha {
+            width: 58px;
+            min-width: 58px;
+            height: 62px;
+            border-radius: 9px;
+            background: #eaf6ff;
+            color: #0878d1;
+            text-align: center;
+            padding-top: 7px;
+        }
+
+        .fecha strong {
+            display: block;
+            font-size: 22px;
+        }
+
+        .fecha span {
+            font-size: 11px;
+            text-transform: uppercase;
+            font-weight: bold;
+        }
+
+        .datos-cita {
+            flex: 1;
+        }
+
+        .datos-cita h3 {
+            font-size: 15px;
+            margin-bottom: 5px;
+        }
+
+        .datos-cita p {
+            color: #65758b;
+            font-size: 12px;
+            margin-bottom: 4px;
+        }
+
+        .estado {
+            display: inline-block;
+            padding: 6px 11px;
+            border-radius: 16px;
+            font-size: 12px;
+            font-weight: bold;
+        }
+
+        .confirmada {
+            background: #e4f7eb;
+            color: #2b8a52;
+        }
+
+        .pendiente {
+            background: #fff1cf;
+            color: #c78a00;
+        }
+
+        .menu-cita {
+            border: none;
+            background: transparent;
+            color: #17243b;
+            font-size: 19px;
+            cursor: pointer;
+            padding: 8px;
+        }
+
+        .menu-cita:hover {
+            color: #0878d1;
+        }
+
+        .sin-citas {
+            display: none;
+            background: white;
+            border: 1px solid #e4edf5;
+            border-radius: 10px;
+            padding: 25px;
+            text-align: center;
+            color: #65758b;
+        }
+
+        @media (max-width: 700px) {
+            .sidebar {
+                position: relative;
+                width: 100%;
+                height: auto;
+            }
+
+            .contenido {
+                margin-left: 0;
+                padding: 20px;
+            }
+
+            .barra-citas {
+                align-items: flex-start;
+                flex-direction: column;
+            }
+
+            .btn-nueva {
+                margin-top: 10px;
+            }
+
+            .cita {
+                flex-wrap: wrap;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <aside class="sidebar">
+
+        <div class="logo">
+            <img src="assets/logo.png" alt="MediControl">
+        </div>
+
+        <nav class="menu">
+
+            <a href="apoderado.html">
+                <i class="fa-solid fa-house"></i>
+                Inicio
+            </a>
+
+            <a href="familiares.html">
+                <i class="fa-solid fa-users"></i>
+                Mis familiares
+            </a>
+
+            <a href="citas_familiares.html" class="activo">
+                <i class="fa-solid fa-calendar-check"></i>
+                Citas familiares
+            </a>
+
+            <a href="historial_familiar.html">
+                <i class="fa-solid fa-file-medical"></i>
+                Historial familiar
+            </a>
+
+            <a href="recordatorios.html">
+                <i class="fa-solid fa-bell"></i>
+                Recordatorios
+            </a>
+
+            <a href="perfil.html">
+                <i class="fa-solid fa-user"></i>
+                Mi perfil
+            </a>
+
+            <a href="index.html" class="cerrar">
+                <i class="fa-solid fa-right-from-bracket"></i>
+                Cerrar sesión
+            </a>
+
+        </nav>
+    </aside>
+
+
+    <main class="contenido">
+
+        <div class="encabezado">
+            <h1>Citas de familiares</h1>
+            <p>Consulta y gestiona las citas de tus familiares.</p>
+        </div>
+
+        <div class="selector">
+            <label for="familiar">Seleccionar familiar</label>
+
+            <select id="familiar" onchange="cambiarFamiliar()">
+                <option value="luciana">Luciana Gutiérrez (Hija)</option>
+                <option value="lucia">Lucía Gutiérrez (Madre)</option>
+                <option value="maria">María Salas (Madre)</option>
+            </select>
+        </div>
+
+
+        <div class="barra-citas">
+
+            <div class="pestanas">
+                <button class="pestana activa" onclick="mostrarProximas(this)">
+                    Próximas citas
+                </button>
+
+                <button class="pestana" onclick="mostrarAnteriores(this)">
+                    Citas anteriores
+                </button>
+            </div>
+
+            <button class="btn-nueva" onclick="nuevaCita()">
+                <i class="fa-solid fa-plus"></i>
+                Nueva cita
+            </button>
+
+        </div>
+
+
+        <section class="lista-citas" id="proximas">
+
+            <article class="cita">
+
+                <div class="fecha">
+                    <strong>15</strong>
+                    <span>SEP</span>
+                </div>
+
+                <div class="datos-cita">
+                    <h3>Pediatría</h3>
+                    <p>Dra. Valeria Ríos</p>
+                    <p>9:00 a. m.</p>
+                </div>
+
+                <span class="estado confirmada">
+                    Confirmada
+                </span>
+
+                <button class="menu-cita" onclick="opcionesCita('Pediatría')">
+                    <i class="fa-solid fa-ellipsis-vertical"></i>
+                </button>
+
+            </article>
+
+
+            <article class="cita">
+
+                <div class="fecha">
+                    <strong>02</strong>
+                    <span>OCT</span>
+                </div>
+
+                <div class="datos-cita">
+                    <h3>Control general</h3>
+                    <p>Dr. Juan Pérez</p>
+                    <p>11:00 a. m.</p>
+                </div>
+
+                <span class="estado pendiente">
+                    Pendiente
+                </span>
+
+                <button class="menu-cita" onclick="opcionesCita('Control general')">
+                    <i class="fa-solid fa-ellipsis-vertical"></i>
+                </button>
+
+            </article>
+
+        </section>
+
+
+        <section class="sin-citas" id="anteriores">
+            <i class="fa-solid fa-calendar-check"
+               style="font-size: 28px; color:#0878d1; margin-bottom:10px;"></i>
+
+            <p>No hay citas anteriores registradas.</p>
+        </section>
+
+    </main>
+
+
+    <script>
+        function nuevaCita() {
+            alert("Aquí podrás registrar una nueva cita para el familiar seleccionado.");
+        }
+
+        function opcionesCita(nombre) {
+            alert("Opciones para la cita: " + nombre);
+        }
+
+        function cambiarFamiliar() {
+            const familiar = document.getElementById("familiar").value;
+
+            if (familiar === "luciana") {
+                alert("Mostrando las citas de Luciana Gutiérrez.");
+            } else if (familiar === "lucia") {
+                alert("Mostrando las citas de Lucía Gutiérrez.");
+            } else {
+                alert("Mostrando las citas de María Salas.");
+            }
+        }
+
+        function mostrarProximas(boton) {
+            document.getElementById("proximas").style.display = "flex";
+            document.getElementById("anteriores").style.display = "none";
+
+            document.querySelectorAll(".pestana").forEach(function(item) {
+                item.classList.remove("activa");
+            });
+
+            boton.classList.add("activa");
+        }
+
+        function mostrarAnteriores(boton) {
+            document.getElementById("proximas").style.display = "none";
+            document.getElementById("anteriores").style.display = "block";
+
+            document.querySelectorAll(".pestana").forEach(function(item) {
+                item.classList.remove("activa");
+            });
+
+            boton.classList.add("activa");
+        }
+    </script>
+
+</body>
+</html>

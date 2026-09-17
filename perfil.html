@@ -1,0 +1,513 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mi perfil - MediControl</title>
+
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            background: #eef8ff;
+            color: #17243b;
+        }
+
+        .contenedor {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* SIDEBAR */
+        .sidebar {
+            width: 220px;
+            background: white;
+            border-right: 1px solid #e2ebf3;
+            padding: 20px 12px;
+            position: fixed;
+            height: 100vh;
+        }
+
+        .logo {
+            width: 150px;
+            display: block;
+            margin: 0 auto 30px;
+        }
+
+        .menu {
+            list-style: none;
+        }
+
+        .menu li {
+            margin-bottom: 8px;
+        }
+
+        .menu a {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px 14px;
+            text-decoration: none;
+            color: #536273;
+            border-radius: 9px;
+            font-size: 14px;
+        }
+
+        .menu a:hover {
+            background: #f0f8ff;
+            color: #0878d1;
+        }
+
+        .menu a.activo {
+            background: #dcefff;
+            color: #0878d1;
+            font-weight: bold;
+        }
+
+        .menu i {
+            width: 20px;
+            text-align: center;
+        }
+
+        .cerrar {
+            margin-top: 30px;
+            border-top: 1px solid #e2ebf3;
+            padding-top: 15px;
+        }
+
+        /* CONTENIDO */
+        .contenido {
+            margin-left: 220px;
+            width: calc(100% - 220px);
+            padding: 35px;
+        }
+
+        .encabezado {
+            margin-bottom: 25px;
+        }
+
+        .encabezado h1 {
+            font-size: 28px;
+            margin-bottom: 8px;
+        }
+
+        .encabezado p {
+            color: #66788a;
+        }
+
+        /* PERFIL */
+        .perfil {
+            max-width: 850px;
+            background: white;
+            border: 1px solid #e4edf5;
+            border-radius: 12px;
+            padding: 30px;
+        }
+
+        .perfil-superior {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            padding-bottom: 25px;
+            border-bottom: 1px solid #e4edf5;
+            margin-bottom: 25px;
+        }
+
+        .foto {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            background: #dcefff;
+            color: #0878d1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 32px;
+        }
+
+        .perfil-superior h2 {
+            font-size: 22px;
+            margin-bottom: 6px;
+        }
+
+        .perfil-superior p {
+            color: #718096;
+            font-size: 14px;
+        }
+
+        .seccion {
+            margin-bottom: 28px;
+        }
+
+        .seccion h3 {
+            font-size: 17px;
+            margin-bottom: 18px;
+        }
+
+        .datos {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 18px;
+        }
+
+        .dato {
+            background: #f8fbfd;
+            border: 1px solid #e4edf5;
+            border-radius: 9px;
+            padding: 14px;
+        }
+
+        .dato span {
+            display: block;
+            font-size: 12px;
+            color: #718096;
+            margin-bottom: 6px;
+        }
+
+        .dato strong {
+            font-size: 14px;
+        }
+
+        /* PREFERENCIAS */
+        .opcion {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 15px 0;
+            border-bottom: 1px solid #edf2f7;
+        }
+
+        .opcion:last-child {
+            border-bottom: none;
+        }
+
+        .opcion-texto strong {
+            display: block;
+            font-size: 14px;
+            margin-bottom: 4px;
+        }
+
+        .opcion-texto span {
+            font-size: 12px;
+            color: #718096;
+        }
+
+        /* SWITCH */
+        .switch {
+            position: relative;
+            width: 45px;
+            height: 24px;
+        }
+
+        .switch input {
+            display: none;
+        }
+
+        .slider {
+            position: absolute;
+            inset: 0;
+            background: #cbd5e1;
+            border-radius: 30px;
+            cursor: pointer;
+            transition: .3s;
+        }
+
+        .slider:before {
+            content: "";
+            position: absolute;
+            width: 18px;
+            height: 18px;
+            left: 3px;
+            top: 3px;
+            background: white;
+            border-radius: 50%;
+            transition: .3s;
+        }
+
+        input:checked + .slider {
+            background: #0878d1;
+        }
+
+        input:checked + .slider:before {
+            transform: translateX(21px);
+        }
+
+        /* BOTONES */
+        .acciones {
+            display: flex;
+            gap: 12px;
+            margin-top: 25px;
+        }
+
+        .boton {
+            border: none;
+            padding: 11px 18px;
+            border-radius: 8px;
+            cursor: pointer;
+            background: #0878d1;
+            color: white;
+            font-size: 14px;
+        }
+
+        .boton:hover {
+            background: #066bb9;
+        }
+
+        .boton-secundario {
+            background: white;
+            color: #0878d1;
+            border: 1px solid #0878d1;
+        }
+
+        .boton-secundario:hover {
+            background: #eef8ff;
+        }
+
+        /* RESPONSIVE */
+        @media (max-width: 800px) {
+
+            .sidebar {
+                position: relative;
+                width: 100%;
+                height: auto;
+            }
+
+            .contenedor {
+                display: block;
+            }
+
+            .contenido {
+                margin-left: 0;
+                width: 100%;
+                padding: 20px;
+            }
+
+            .datos {
+                grid-template-columns: 1fr;
+            }
+
+            .perfil {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="contenedor">
+
+    <!-- MENÚ APODERADO -->
+    <aside class="sidebar">
+
+        <img src="assets/logo.png" alt="MediControl" class="logo">
+
+        <ul class="menu">
+
+            <li>
+                <a href="apoderado.html">
+                    <i class="fa-solid fa-house"></i>
+                    Inicio
+                </a>
+            </li>
+
+            <li>
+                <a href="familiares.html">
+                    <i class="fa-solid fa-users"></i>
+                    Mis familiares
+                </a>
+            </li>
+
+            <li>
+                <a href="citas_familiares.html">
+                    <i class="fa-solid fa-calendar-check"></i>
+                    Citas familiares
+                </a>
+            </li>
+
+            <li>
+                <a href="historial_familiar.html">
+                    <i class="fa-solid fa-file-medical"></i>
+                    Historial familiar
+                </a>
+            </li>
+
+            <li>
+                <a href="recordatorios_apoderado.html">
+                    <i class="fa-solid fa-bell"></i>
+                    Recordatorios
+                </a>
+            </li>
+
+            <li>
+                <a href="perfil.html" class="activo">
+                    <i class="fa-solid fa-user"></i>
+                    Mi perfil
+                </a>
+            </li>
+
+            <li class="cerrar">
+                <a href="index.html">
+                    <i class="fa-solid fa-right-from-bracket"></i>
+                    Cerrar sesión
+                </a>
+            </li>
+
+        </ul>
+
+    </aside>
+
+
+    <!-- CONTENIDO -->
+    <main class="contenido">
+
+        <div class="encabezado">
+            <h1>Mi perfil</h1>
+            <p>Consulta y administra tu información personal.</p>
+        </div>
+
+
+        <section class="perfil">
+
+            <!-- CABECERA -->
+            <div class="perfil-superior">
+
+                <div class="foto">
+                    <i class="fa-solid fa-user"></i>
+                </div>
+
+                <div>
+                    <h2>Carlos Gutiérrez</h2>
+                    <p>Apoderado</p>
+                </div>
+
+            </div>
+
+
+            <!-- INFORMACIÓN -->
+            <div class="seccion">
+
+                <h3>Información personal</h3>
+
+                <div class="datos">
+
+                    <div class="dato">
+                        <span>Nombres</span>
+                        <strong>Carlos</strong>
+                    </div>
+
+                    <div class="dato">
+                        <span>Apellidos</span>
+                        <strong>Gutiérrez</strong>
+                    </div>
+
+                    <div class="dato">
+                        <span>DNI</span>
+                        <strong>12345678</strong>
+                    </div>
+
+                    <div class="dato">
+                        <span>Teléfono</span>
+                        <strong>987 654 321</strong>
+                    </div>
+
+                    <div class="dato">
+                        <span>Correo electrónico</span>
+                        <strong>carlos@email.com</strong>
+                    </div>
+
+                    <div class="dato">
+                        <span>Tipo de usuario</span>
+                        <strong>Apoderado</strong>
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- PREFERENCIAS -->
+            <div class="seccion">
+
+                <h3>Preferencias de notificaciones</h3>
+
+                <div class="opcion">
+
+                    <div class="opcion-texto">
+                        <strong>Recordatorios de medicamentos</strong>
+                        <span>Recibir avisos sobre los medicamentos de tus familiares.</span>
+                    </div>
+
+                    <label class="switch">
+                        <input type="checkbox" checked>
+                        <span class="slider"></span>
+                    </label>
+
+                </div>
+
+                <div class="opcion">
+
+                    <div class="opcion-texto">
+                        <strong>Avisos de medicamentos por terminar</strong>
+                        <span>Recibir una alerta cuando queden pocas pastillas.</span>
+                    </div>
+
+                    <label class="switch">
+                        <input type="checkbox" checked>
+                        <span class="slider"></span>
+                    </label>
+
+                </div>
+
+            </div>
+
+
+            <!-- BOTONES -->
+            <div class="acciones">
+
+                <button class="boton" onclick="editarPerfil()">
+                    <i class="fa-solid fa-pen"></i>
+                    Editar perfil
+                </button>
+
+                <button class="boton boton-secundario"
+                        onclick="cerrarSesion()">
+                    Cerrar sesión
+                </button>
+
+            </div>
+
+        </section>
+
+    </main>
+
+</div>
+
+
+<script>
+
+    function editarPerfil() {
+        alert("Aquí podrás editar tus datos personales.");
+    }
+
+    function cerrarSesion() {
+
+        let confirmar = confirm("¿Deseas cerrar sesión?");
+
+        if (confirmar) {
+            window.location.href = "index.html";
+        }
+    }
+
+</script>
+
+</body>
+</html>

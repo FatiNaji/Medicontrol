@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Iniciar sesión - MediControl</title>
+
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            background: #eef8ff;
+            color: #17243b;
+            min-height: 100vh;
+            display: flex;
+        }
+
+        .lado {
+            width: 220px;
+            background: white;
+            border-right: 1px solid #e2ebf3;
+            padding: 25px 15px;
+        }
+
+        .logo {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .logo img {
+            width: 145px;
+            max-width: 100%;
+        }
+
+        .menu {
+            display: flex;
+            flex-direction: column;
+            gap: 7px;
+        }
+
+        .menu a {
+            text-decoration: none;
+            color: #17243b;
+            padding: 12px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            gap: 11px;
+            font-size: 14px;
+        }
+
+        .menu a:hover {
+            background: #dcefff;
+            color: #0878d1;
+        }
+
+        .menu i {
+            width: 20px;
+            text-align: center;
+        }
+
+        .principal {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 30px;
+        }
+
+        .login {
+            width: 100%;
+            max-width: 430px;
+            background: white;
+            border-radius: 12px;
+            padding: 30px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.06);
+        }
+
+        .logo-login {
+            text-align: center;
+            margin-bottom: 18px;
+        }
+
+        .logo-login img {
+            width: 125px;
+        }
+
+        h1 {
+            text-align: center;
+            font-size: 25px;
+            margin-bottom: 7px;
+        }
+
+        .subtitulo {
+            text-align: center;
+            color: #65758b;
+            font-size: 13px;
+            margin-bottom: 25px;
+        }
+
+        label {
+            display: block;
+            font-size: 13px;
+            margin-bottom: 7px;
+        }
+
+        input {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #d7e3ed;
+            border-radius: 8px;
+            margin-bottom: 15px;
+            outline: none;
+        }
+
+        input:focus {
+            border-color: #0878d1;
+        }
+
+        .btn-ingresar {
+            width: 100%;
+            border: none;
+            background: #0878d1;
+            color: white;
+            padding: 12px;
+            border-radius: 8px;
+            font-size: 14px;
+            cursor: pointer;
+            margin-top: 5px;
+        }
+
+        .btn-ingresar:hover {
+            background: #0668b5;
+        }
+
+        .opciones {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin: 15px 0 20px;
+            font-size: 12px;
+        }
+
+        .opciones a {
+            color: #0878d1;
+            text-decoration: none;
+        }
+
+        .opciones label {
+            margin: 0;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            font-size: 12px;
+        }
+
+        .opciones input {
+            width: auto;
+            margin: 0;
+        }
+
+        .separador {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin: 22px 0;
+            color: #a0aec0;
+            font-size: 12px;
+        }
+
+        .separador::before,
+        .separador::after {
+            content: "";
+            height: 1px;
+            background: #dce6ef;
+            flex: 1;
+        }
+
+        .tipos {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+        }
+
+        .tipo {
+            border: none;
+            background: #eaf6ff;
+            color: #0878d1;
+            padding: 12px 8px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 12px;
+        }
+
+        .tipo:hover {
+            background: #dcefff;
+        }
+
+        .registro {
+            text-align: center;
+            margin-top: 20px;
+            font-size: 12px;
+            color: #65758b;
+        }
+
+        .registro a {
+            color: #0878d1;
+            font-weight: bold;
+            text-decoration: none;
+        }
+
+        @media (max-width: 700px) {
+            body {
+                display: block;
+            }
+
+            .lado {
+                width: 100%;
+                border-right: none;
+                border-bottom: 1px solid #e2ebf3;
+            }
+
+            .menu {
+                display: none;
+            }
+
+            .principal {
+                min-height: calc(100vh - 130px);
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <aside class="lado">
+
+        <div class="logo">
+            <img src="assets/logo.png" alt="MediControl">
+        </div>
+
+        <nav class="menu">
+
+            <a href="index.html">
+                <i class="fa-solid fa-house"></i>
+                Inicio
+            </a>
+
+            <a href="login.html">
+                <i class="fa-solid fa-right-to-bracket"></i>
+                Iniciar sesión
+            </a>
+
+            <a href="registro.html">
+                <i class="fa-solid fa-user-plus"></i>
+                Registrarse
+            </a>
+
+        </nav>
+
+    </aside>
+
+
+    <main class="principal">
+
+        <section class="login">
+
+            <div class="logo-login">
+                <img src="assets/logo.png" alt="MediControl">
+            </div>
+
+            <h1>Iniciar sesión</h1>
+            <p class="subtitulo">Ingresa a tu cuenta para continuar</p>
+
+
+            <form onsubmit="iniciarSesion(event)">
+
+                <label for="usuario">Nombre o apellido</label>
+                <input
+                    type="text"
+                    id="usuario"
+                    placeholder="Ingresa tu nombre o apellido"
+                    required
+                >
+
+                <label for="password">Contraseña</label>
+                <input
+                    type="password"
+                    id="password"
+                    placeholder="Ingresa tu DNI"
+                    required
+                >
+
+                <div class="opciones">
+
+                    <label>
+                        <input type="checkbox">
+                        Recordarme
+                    </label>
+
+                    <a href="#" onclick="alert('Función disponible próximamente.')">
+                        ¿Olvidaste tu contraseña?
+                    </a>
+
+                </div>
+
+                <button type="submit" class="btn-ingresar">
+                    Iniciar sesión
+                </button>
+
+            </form>
+
+
+            <div class="separador">
+                o
+            </div>
+
+
+            <div class="tipos">
+
+                <!-- AHORA SÍ LLEVA AL PACIENTE -->
+                <button class="tipo" onclick="location.href='paciente.html'">
+                    <i class="fa-solid fa-user"></i>
+                    <br>
+                    Ingresar como Paciente
+                </button>
+
+                <!-- AHORA SÍ LLEVA AL APODERADO -->
+                <button class="tipo" onclick="location.href='apoderado.html'">
+                    <i class="fa-solid fa-users"></i>
+                    <br>
+                    Ingresar como Apoderado
+                </button>
+
+            </div>
+
+
+            <p class="registro">
+                ¿No tienes una cuenta?
+                <a href="registro.html">Regístrate aquí</a>
+            </p>
+
+        </section>
+
+    </main>
+
+
+    <script>
+        function iniciarSesion(event) {
+            event.preventDefault();
+
+            // Para el prototipo básico:
+            // el usuario puede elegir directamente el tipo de ingreso.
+            alert("Selecciona 'Ingresar como Paciente' o 'Ingresar como Apoderado'.");
+        }
+    </script>
+
+</body>
+</html>

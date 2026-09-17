@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Historial médico familiar - MediControl</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:Arial,Helvetica,sans-serif;background:#eef8ff;color:#17243b}
+.sidebar{position:fixed;left:0;top:0;width:220px;height:100vh;background:white;border-right:1px solid #e2ebf3;padding:20px 15px}
+.logo{text-align:center;margin-bottom:28px}.logo img{width:145px;max-width:100%}
+.menu{display:flex;flex-direction:column;gap:7px}.menu a{text-decoration:none;color:#17243b;padding:12px;border-radius:8px;display:flex;align-items:center;gap:11px;font-size:14px}
+.menu a:hover,.menu a.activo{background:#dcefff;color:#0878d1}.menu i{width:20px;text-align:center}.cerrar{margin-top:18px;color:#d9534f!important}
+.contenido{margin-left:220px;padding:35px}.encabezado{margin-bottom:22px}.encabezado h1{font-size:28px;margin-bottom:7px}.encabezado p{color:#65758b}
+.selector{margin-bottom:20px}.selector label{display:block;font-size:13px;color:#53657a;margin-bottom:7px}
+.selector select{width:100%;max-width:620px;padding:12px 14px;border:1px solid #d9e5ee;border-radius:8px;background:white;color:#17243b;font-size:14px}
+.pestanas{display:flex;gap:25px;border-bottom:1px solid #dce6ef;margin-bottom:15px}.pestana{border:none;background:transparent;padding:11px 12px;color:#65758b;cursor:pointer;font-size:13px}
+.pestana.activa{color:#0878d1;font-weight:bold;border-bottom:3px solid #0878d1}
+.lista{display:flex;flex-direction:column;gap:10px}.registro{background:white;border:1px solid #e4edf5;border-radius:9px;padding:13px 15px;display:flex;align-items:center;gap:15px;box-shadow:0 2px 7px rgba(0,0,0,.03)}
+.fecha{width:100px;min-width:100px;color:#17243b;font-size:12px;font-weight:bold;display:flex;align-items:center;gap:7px}.fecha i{color:#0878d1;font-size:16px}
+.detalle{flex:1}.detalle h3{font-size:13px;margin-bottom:4px}.detalle p{color:#65758b;font-size:12px}
+.btn-ver{border:none;background:#eaf6ff;color:#0878d1;padding:9px 16px;border-radius:7px;cursor:pointer;font-size:12px}.btn-ver:hover{background:#dcefff}
+.vacio{display:none;background:white;border:1px solid #e4edf5;border-radius:9px;padding:25px;text-align:center;color:#65758b}
+@media(max-width:700px){.sidebar{position:relative;width:100%;height:auto}.contenido{margin-left:0;padding:20px}.registro{flex-wrap:wrap}.fecha{width:100%}}
+</style>
+</head>
+<body>
+<aside class="sidebar">
+<div class="logo"><img src="assets/logo.png" alt="MediControl"></div>
+<nav class="menu">
+<a href="apoderado.html"><i class="fa-solid fa-house"></i>Inicio</a>
+<a href="familiares.html"><i class="fa-solid fa-users"></i>Mis familiares</a>
+<a href="citas_familiares.html"><i class="fa-solid fa-calendar-check"></i>Citas familiares</a>
+<a href="historial_familiar.html" class="activo"><i class="fa-solid fa-file-medical"></i>Historial familiar</a>
+<a href="recordatorios.html"><i class="fa-solid fa-bell"></i>Recordatorios</a>
+<a href="perfil.html"><i class="fa-solid fa-user"></i>Mi perfil</a>
+<a href="index.html" class="cerrar"><i class="fa-solid fa-right-from-bracket"></i>Cerrar sesión</a>
+</nav>
+</aside>
+
+<main class="contenido">
+<div class="encabezado">
+<h1>Historial médico familiar</h1>
+<p>Consulta la información médica de tus familiares.</p>
+</div>
+
+<div class="selector">
+<label for="familiar">Seleccionar familiar</label>
+<select id="familiar" onchange="cambiarFamiliar()">
+<option>Luciana Gutiérrez (Hija)</option>
+<option>Lucía Gutiérrez (Madre)</option>
+<option>María Salas (Madre)</option>
+</select>
+</div>
+
+<div class="pestanas">
+<button class="pestana activa" onclick="mostrarSeccion('consultas',this)">Consultas</button>
+<button class="pestana" onclick="mostrarSeccion('resultados',this)">Resultados</button>
+<button class="pestana" onclick="mostrarSeccion('diagnosticos',this)">Diagnósticos</button>
+</div>
+
+<section class="lista" id="consultas">
+<article class="registro">
+<div class="fecha"><i class="fa-regular fa-calendar"></i>01 ago 2026</div>
+<div class="detalle"><h3>Medicina general</h3><p>Dra. Valeria Ríos</p></div>
+<button class="btn-ver" onclick="verRegistro('Medicina general')">Ver</button>
+</article>
+<article class="registro">
+<div class="fecha"><i class="fa-regular fa-calendar"></i>20 may 2026</div>
+<div class="detalle"><h3>Laboratorio</h3><p>Análisis de sangre</p></div>
+<button class="btn-ver" onclick="verRegistro('Laboratorio')">Ver</button>
+</article>
+<article class="registro">
+<div class="fecha"><i class="fa-regular fa-calendar"></i>12 mar 2026</div>
+<div class="detalle"><h3>Medicina general</h3><p>Dr. Juan Pérez</p></div>
+<button class="btn-ver" onclick="verRegistro('Medicina general')">Ver</button>
+</article>
+</section>
+
+<section class="vacio" id="resultados"><i class="fa-solid fa-flask" style="font-size:28px;color:#0878d1;margin-bottom:10px;"></i><p>No hay resultados adicionales registrados.</p></section>
+<section class="vacio" id="diagnosticos"><i class="fa-solid fa-notes-medical" style="font-size:28px;color:#0878d1;margin-bottom:10px;"></i><p>No hay diagnósticos registrados.</p></section>
+</main>
+
+<script>
+function cambiarFamiliar(){alert("Mostrando el historial de "+document.getElementById("familiar").value+".");}
+function verRegistro(tipo){alert("Mostrando información del registro: "+tipo);}
+function mostrarSeccion(seccion,boton){
+document.getElementById("consultas").style.display="none";
+document.getElementById("resultados").style.display="none";
+document.getElementById("diagnosticos").style.display="none";
+document.getElementById(seccion).style.display=seccion==="consultas"?"flex":"block";
+document.querySelectorAll(".pestana").forEach(x=>x.classList.remove("activa"));
+boton.classList.add("activa");
+}
+</script>
+</body>
+</html>

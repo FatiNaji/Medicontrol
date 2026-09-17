@@ -1,0 +1,668 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Recordatorios - MediControl</title>
+
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            background: #eef8ff;
+            color: #17243b;
+        }
+
+        .contenedor {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* SIDEBAR */
+        .sidebar {
+            width: 220px;
+            background: white;
+            border-right: 1px solid #e2ebf3;
+            padding: 20px 12px;
+            position: fixed;
+            height: 100vh;
+        }
+
+        .logo {
+            width: 150px;
+            display: block;
+            margin: 0 auto 30px;
+        }
+
+        .menu {
+            list-style: none;
+        }
+
+        .menu li {
+            margin-bottom: 8px;
+        }
+
+        .menu a {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px 14px;
+            text-decoration: none;
+            color: #536273;
+            border-radius: 9px;
+            font-size: 14px;
+        }
+
+        .menu a:hover {
+            background: #f0f8ff;
+            color: #0878d1;
+        }
+
+        .menu a.activo {
+            background: #dcefff;
+            color: #0878d1;
+            font-weight: bold;
+        }
+
+        .menu i {
+            width: 20px;
+            text-align: center;
+        }
+
+        .cerrar {
+            margin-top: 30px;
+            border-top: 1px solid #e2ebf3;
+            padding-top: 15px;
+        }
+
+        /* CONTENIDO */
+        .contenido {
+            margin-left: 220px;
+            width: calc(100% - 220px);
+            padding: 35px;
+        }
+
+        .encabezado {
+            margin-bottom: 25px;
+        }
+
+        .encabezado h1 {
+            font-size: 28px;
+            margin-bottom: 8px;
+        }
+
+        .encabezado p {
+            color: #66788a;
+        }
+
+        /* ALERTA */
+        .alerta {
+            background: #fff4df;
+            border: 1px solid #f2d49a;
+            border-radius: 10px;
+            padding: 15px 18px;
+            margin-bottom: 25px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            color: #815b16;
+        }
+
+        .alerta i {
+            font-size: 20px;
+        }
+
+        /* FAMILIA */
+        .familia {
+            margin-bottom: 30px;
+        }
+
+        .familia h2 {
+            font-size: 20px;
+            margin-bottom: 15px;
+        }
+
+        .recordatorios {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(280px, 1fr));
+            gap: 18px;
+        }
+
+        .tarjeta {
+            background: white;
+            border: 1px solid #e4edf5;
+            border-radius: 12px;
+            padding: 20px;
+        }
+
+        .tarjeta-superior {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .medicamento {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .icono {
+            width: 42px;
+            height: 42px;
+            border-radius: 50%;
+            background: #e8f5ff;
+            color: #0878d1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .medicamento h3 {
+            font-size: 16px;
+            margin-bottom: 4px;
+        }
+
+        .medicamento p {
+            font-size: 13px;
+            color: #718096;
+        }
+
+        .hora {
+            font-size: 22px;
+            font-weight: bold;
+            color: #0878d1;
+            margin: 12px 0;
+        }
+
+        .detalle {
+            font-size: 14px;
+            color: #66788a;
+            margin-bottom: 15px;
+        }
+
+        .estado {
+            display: inline-block;
+            padding: 6px 10px;
+            border-radius: 20px;
+            font-size: 12px;
+            background: #e4f7ea;
+            color: #267542;
+        }
+
+        .estado.por-acabarse {
+            background: #fff0d8;
+            color: #a56b00;
+        }
+
+        /* SWITCH */
+        .switch {
+            position: relative;
+            width: 45px;
+            height: 24px;
+            display: inline-block;
+        }
+
+        .switch input {
+            display: none;
+        }
+
+        .slider {
+            position: absolute;
+            inset: 0;
+            background: #cbd5e1;
+            border-radius: 30px;
+            cursor: pointer;
+            transition: .3s;
+        }
+
+        .slider:before {
+            content: "";
+            position: absolute;
+            width: 18px;
+            height: 18px;
+            left: 3px;
+            top: 3px;
+            background: white;
+            border-radius: 50%;
+            transition: .3s;
+        }
+
+        input:checked + .slider {
+            background: #0878d1;
+        }
+
+        input:checked + .slider:before {
+            transform: translateX(21px);
+        }
+
+        /* BOTONES */
+        .acciones {
+            margin-top: 25px;
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        .boton {
+            border: none;
+            padding: 11px 17px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 14px;
+            background: #0878d1;
+            color: white;
+        }
+
+        .boton:hover {
+            background: #066bb9;
+        }
+
+        .boton-secundario {
+            background: white;
+            color: #0878d1;
+            border: 1px solid #0878d1;
+        }
+
+        .boton-secundario:hover {
+            background: #eef8ff;
+        }
+
+        /* RESPONSIVE */
+        @media (max-width: 800px) {
+
+            .sidebar {
+                position: relative;
+                width: 100%;
+                height: auto;
+            }
+
+            .contenedor {
+                display: block;
+            }
+
+            .contenido {
+                margin-left: 0;
+                width: 100%;
+                padding: 20px;
+            }
+
+            .recordatorios {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="contenedor">
+
+    <!-- MENÚ -->
+    <aside class="sidebar">
+
+        <img src="assets/logo.png" alt="MediControl" class="logo">
+
+        <ul class="menu">
+
+            <li>
+                <a href="apoderado.html">
+                    <i class="fa-solid fa-house"></i>
+                    Inicio
+                </a>
+            </li>
+
+            <li>
+                <a href="familiares.html">
+                    <i class="fa-solid fa-users"></i>
+                    Mis familiares
+                </a>
+            </li>
+
+            <li>
+                <a href="citas_familiares.html">
+                    <i class="fa-solid fa-calendar-check"></i>
+                    Citas familiares
+                </a>
+            </li>
+
+            <li>
+                <a href="historial_familiar.html">
+                    <i class="fa-solid fa-file-medical"></i>
+                    Historial familiar
+                </a>
+            </li>
+
+            <li>
+                <a href="recordatorios_apoderado.html" class="activo">
+                    <i class="fa-solid fa-bell"></i>
+                    Recordatorios
+                </a>
+            </li>
+
+            <li>
+                <a href="perfil.html">
+                    <i class="fa-solid fa-user"></i>
+                    Mi perfil
+                </a>
+            </li>
+
+            <li class="cerrar">
+                <a href="index.html">
+                    <i class="fa-solid fa-right-from-bracket"></i>
+                    Cerrar sesión
+                </a>
+            </li>
+
+        </ul>
+
+    </aside>
+
+
+    <!-- CONTENIDO -->
+    <main class="contenido">
+
+        <div class="encabezado">
+            <h1>Recordatorios</h1>
+            <p>Supervisa los horarios de medicación de tus familiares.</p>
+        </div>
+
+
+        <!-- ALERTA -->
+        <div class="alerta">
+            <i class="fa-solid fa-triangle-exclamation"></i>
+
+            <div>
+                <strong>Atención:</strong>
+                Lucía tiene pocas pastillas de Metformina. Quedan solo 6.
+            </div>
+        </div>
+
+
+        <!-- LUCÍA -->
+        <section class="familia">
+
+            <h2>Lucía Gutiérrez</h2>
+
+            <div class="recordatorios">
+
+                <!-- METFORMINA MAÑANA -->
+                <div class="tarjeta">
+
+                    <div class="tarjeta-superior">
+
+                        <div class="medicamento">
+
+                            <div class="icono">
+                                <i class="fa-solid fa-pills"></i>
+                            </div>
+
+                            <div>
+                                <h3>Metformina 500 mg</h3>
+                                <p>Cada 12 horas</p>
+                            </div>
+
+                        </div>
+
+                        <label class="switch">
+                            <input type="checkbox" checked
+                                   onchange="cambiarEstado(this)">
+                            <span class="slider"></span>
+                        </label>
+
+                    </div>
+
+                    <div class="hora">
+                        08:00 a. m.
+                    </div>
+
+                    <div class="detalle">
+                        1 pastilla · 6 restantes
+                    </div>
+
+                    <span class="estado por-acabarse">
+                        Por acabarse
+                    </span>
+
+                </div>
+
+
+                <!-- METFORMINA NOCHE -->
+                <div class="tarjeta">
+
+                    <div class="tarjeta-superior">
+
+                        <div class="medicamento">
+
+                            <div class="icono">
+                                <i class="fa-solid fa-pills"></i>
+                            </div>
+
+                            <div>
+                                <h3>Metformina 500 mg</h3>
+                                <p>Cada 12 horas</p>
+                            </div>
+
+                        </div>
+
+                        <label class="switch">
+                            <input type="checkbox" checked
+                                   onchange="cambiarEstado(this)">
+                            <span class="slider"></span>
+                        </label>
+
+                    </div>
+
+                    <div class="hora">
+                        08:00 p. m.
+                    </div>
+
+                    <div class="detalle">
+                        1 pastilla · 6 restantes
+                    </div>
+
+                    <span class="estado por-acabarse">
+                        Por acabarse
+                    </span>
+
+                </div>
+
+
+                <!-- LOSARTÁN -->
+                <div class="tarjeta">
+
+                    <div class="tarjeta-superior">
+
+                        <div class="medicamento">
+
+                            <div class="icono">
+                                <i class="fa-solid fa-pills"></i>
+                            </div>
+
+                            <div>
+                                <h3>Losartán 50 mg</h3>
+                                <p>Cada 24 horas</p>
+                            </div>
+
+                        </div>
+
+                        <label class="switch">
+                            <input type="checkbox" checked
+                                   onchange="cambiarEstado(this)">
+                            <span class="slider"></span>
+                        </label>
+
+                    </div>
+
+                    <div class="hora">
+                        08:00 p. m.
+                    </div>
+
+                    <div class="detalle">
+                        1 pastilla · 18 restantes
+                    </div>
+
+                    <span class="estado">
+                        Activo
+                    </span>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- MARÍA -->
+        <section class="familia">
+
+            <h2>María Salas</h2>
+
+            <div class="recordatorios">
+
+                <!-- OMEPRAZOL -->
+                <div class="tarjeta">
+
+                    <div class="tarjeta-superior">
+
+                        <div class="medicamento">
+
+                            <div class="icono">
+                                <i class="fa-solid fa-pills"></i>
+                            </div>
+
+                            <div>
+                                <h3>Omeprazol 20 mg</h3>
+                                <p>Cada 24 horas</p>
+                            </div>
+
+                        </div>
+
+                        <label class="switch">
+                            <input type="checkbox" checked
+                                   onchange="cambiarEstado(this)">
+                            <span class="slider"></span>
+                        </label>
+
+                    </div>
+
+                    <div class="hora">
+                        07:00 a. m.
+                    </div>
+
+                    <div class="detalle">
+                        1 pastilla · 25 restantes
+                    </div>
+
+                    <span class="estado">
+                        Activo
+                    </span>
+
+                </div>
+
+
+                <!-- MEDICAMENTO 2 -->
+                <div class="tarjeta">
+
+                    <div class="tarjeta-superior">
+
+                        <div class="medicamento">
+
+                            <div class="icono">
+                                <i class="fa-solid fa-pills"></i>
+                            </div>
+
+                            <div>
+                                <h3>Losartán 50 mg</h3>
+                                <p>Cada 24 horas</p>
+                            </div>
+
+                        </div>
+
+                        <label class="switch">
+                            <input type="checkbox" checked
+                                   onchange="cambiarEstado(this)">
+                            <span class="slider"></span>
+                        </label>
+
+                    </div>
+
+                    <div class="hora">
+                        08:00 p. m.
+                    </div>
+
+                    <div class="detalle">
+                        1 pastilla · 18 restantes
+                    </div>
+
+                    <span class="estado">
+                        Activo
+                    </span>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- ACCIONES -->
+        <div class="acciones">
+
+            <button class="boton" onclick="nuevoRecordatorio()">
+                <i class="fa-solid fa-plus"></i>
+                Agregar recordatorio
+            </button>
+
+            <button class="boton boton-secundario"
+                    onclick="probarAlarma()">
+                <i class="fa-solid fa-volume-high"></i>
+                Probar alarma
+            </button>
+
+        </div>
+
+    </main>
+
+</div>
+
+
+<script>
+
+    function cambiarEstado(elemento) {
+
+        if (elemento.checked) {
+            alert("Recordatorio activado.");
+        } else {
+            alert("Recordatorio desactivado.");
+        }
+
+    }
+
+
+    function nuevoRecordatorio() {
+
+        alert("Aquí podrás agregar un nuevo recordatorio para un familiar.");
+
+    }
+
+
+    function probarAlarma() {
+
+        alert("🔔 Alarma de prueba: recuerda revisar la medicación de tu familiar.");
+
+    }
+
+</script>
+
+</body>
+</html>

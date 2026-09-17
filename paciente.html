@@ -1,0 +1,652 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>MediControl - Inicio</title>
+
+    <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+
+    <style>
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            background: #eef8ff;
+            color: #17243b;
+        }
+
+        a {
+            text-decoration: none;
+        }
+
+        .app {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* SIDEBAR */
+
+        .sidebar {
+            width: 220px;
+            min-height: 100vh;
+
+            background: white;
+
+            border-right: 1px solid #e2ebf3;
+
+            padding: 18px 14px;
+
+            position: fixed;
+
+            left: 0;
+            top: 0;
+            bottom: 0;
+        }
+
+        .logo {
+            padding: 5px 7px 22px;
+        }
+
+        .logo img {
+            width: 145px;
+            height: auto;
+        }
+
+        /* MENU */
+
+        .menu {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
+
+        .menu a {
+            display: flex;
+            align-items: center;
+
+            gap: 12px;
+
+            padding: 11px 12px;
+
+            border-radius: 7px;
+
+            color: #566579;
+
+            font-size: 13px;
+        }
+
+        .menu a i {
+            width: 18px;
+            text-align: center;
+        }
+
+        .menu a:hover {
+            background: #edf7ff;
+            color: #0878d1;
+        }
+
+        .menu a.active {
+            background: #dcefff;
+            color: #0878d1;
+            font-weight: bold;
+        }
+
+        /* LOGOUT */
+
+        .logout {
+            position: absolute;
+
+            bottom: 25px;
+
+            left: 14px;
+            right: 14px;
+        }
+
+        .logout a {
+            display: flex;
+            align-items: center;
+
+            gap: 12px;
+
+            padding: 11px 12px;
+
+            color: #596579;
+
+            font-size: 13px;
+        }
+
+        /* CONTENIDO */
+
+        .content {
+            margin-left: 220px;
+
+            width: calc(100% - 220px);
+
+            padding: 30px 35px;
+        }
+
+        .welcome {
+            margin-bottom: 25px;
+        }
+
+        .welcome h1 {
+            font-size: 25px;
+            margin-bottom: 7px;
+        }
+
+        .welcome p {
+            font-size: 12px;
+            color: #68778a;
+        }
+
+        /* TARJETAS */
+
+        .cards {
+            display: grid;
+
+            grid-template-columns:
+                repeat(3, 1fr);
+
+            gap: 15px;
+
+            margin-bottom: 28px;
+        }
+
+        .card {
+            background: white;
+
+            border: 1px solid #e4edf5;
+
+            border-radius: 10px;
+
+            padding: 18px;
+        }
+
+        .card-icon {
+            width: 38px;
+            height: 38px;
+
+            background: #e3f4ff;
+
+            color: #0878d1;
+
+            border-radius: 50%;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            margin-bottom: 12px;
+        }
+
+        .card h2 {
+            font-size: 15px;
+
+            margin-bottom: 5px;
+        }
+
+        .card p {
+            font-size: 10px;
+
+            color: #718096;
+
+            line-height: 1.5;
+        }
+
+        .card a {
+            display: inline-block;
+
+            margin-top: 12px;
+
+            color: #0878d1;
+
+            font-size: 10px;
+
+            font-weight: bold;
+        }
+
+        /* ACCESOS */
+
+        .section-title {
+            font-size: 18px;
+
+            margin-bottom: 13px;
+        }
+
+        .quick-access {
+            display: grid;
+
+            grid-template-columns:
+                repeat(3, 1fr);
+
+            gap: 15px;
+        }
+
+        .quick-card {
+            background: white;
+
+            border: 1px solid #e4edf5;
+
+            border-radius: 10px;
+
+            padding: 22px;
+
+            text-align: center;
+
+            color: #34465c;
+
+            transition: .2s;
+        }
+
+        .quick-card:hover {
+            border-color: #b9dcf4;
+
+            transform: translateY(-2px);
+        }
+
+        .quick-card i {
+            font-size: 25px;
+
+            color: #0878d1;
+
+            margin-bottom: 10px;
+        }
+
+        .quick-card h3 {
+            font-size: 12px;
+        }
+
+        .quick-card p {
+            font-size: 9px;
+
+            color: #718096;
+
+            margin-top: 5px;
+        }
+
+        /* RESPONSIVE */
+
+        @media (max-width: 850px) {
+
+            .sidebar {
+                width: 190px;
+            }
+
+            .content {
+                margin-left: 190px;
+
+                width: calc(100% - 190px);
+            }
+
+            .cards,
+            .quick-access {
+                grid-template-columns: 1fr;
+            }
+
+        }
+
+        @media (max-width: 650px) {
+
+            .app {
+                display: block;
+            }
+
+            .sidebar {
+                position: relative;
+
+                width: 100%;
+
+                min-height: auto;
+
+                border-right: none;
+
+                border-bottom: 1px solid #e2ebf3;
+            }
+
+            .menu {
+                flex-direction: row;
+
+                overflow-x: auto;
+            }
+
+            .menu a {
+                flex-shrink: 0;
+            }
+
+            .menu a span {
+                display: none;
+            }
+
+            .logout {
+                display: none;
+            }
+
+            .content {
+                margin-left: 0;
+
+                width: 100%;
+
+                padding: 20px 15px;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<div class="app">
+
+
+    <!-- =====================================
+         MENÚ LATERAL
+    ===================================== -->
+
+    <aside class="sidebar">
+
+
+        <div class="logo">
+
+            <img
+                src="assets/logo.png"
+                alt="MediControl">
+
+        </div>
+
+
+        <nav class="menu">
+
+
+            <!-- INICIO -->
+
+            <a
+                href="paciente.html"
+                class="active">
+
+                <i class="fa-solid fa-house"></i>
+
+                <span>
+                    Inicio
+                </span>
+
+            </a>
+
+
+            <!-- HISTORIAL -->
+
+            <a href="historial.html">
+
+                <i class="fa-solid fa-file-medical"></i>
+
+                <span>
+                    Mi historial
+                </span>
+
+            </a>
+
+
+            <!-- TRATAMIENTOS -->
+
+            <a href="#">
+
+                <i class="fa-solid fa-pills"></i>
+
+                <span>
+                    Mis tratamientos
+                </span>
+
+            </a>
+
+
+            <!-- CALENDARIO -->
+
+            <a href="calendario.html">
+
+                <i class="fa-solid fa-calendar-days"></i>
+
+                <span>
+                    Calendario
+                </span>
+
+            </a>
+
+
+            <!-- RECORDATORIOS -->
+
+            <a href="recordatorios.html">
+
+                <i class="fa-solid fa-bell"></i>
+
+                <span>
+                    Recordatorios
+                </span>
+
+            </a>
+
+
+            <!-- PERFIL -->
+
+            <a href="#">
+
+                <i class="fa-solid fa-user"></i>
+
+                <span>
+                    Mi perfil
+                </span>
+
+            </a>
+
+        </nav>
+
+
+        <div class="logout">
+
+            <a href="index.html">
+
+                <i class="fa-solid fa-right-from-bracket"></i>
+
+                <span>
+                    Cerrar sesión
+                </span>
+
+            </a>
+
+        </div>
+
+    </aside>
+
+
+
+    <!-- =====================================
+         CONTENIDO
+    ===================================== -->
+
+    <main class="content">
+
+
+        <div class="welcome">
+
+            <h1>
+                Bienvenido a MediControl
+            </h1>
+
+            <p>
+                Organiza tus medicamentos y mantén tus tratamientos al día.
+            </p>
+
+        </div>
+
+
+
+        <!-- TARJETAS -->
+
+        <section class="cards">
+
+
+            <!-- MEDICAMENTOS -->
+
+            <div class="card">
+
+                <div class="card-icon">
+
+                    <i class="fa-solid fa-pills"></i>
+
+                </div>
+
+                <h2>
+                    Mis medicamentos
+                </h2>
+
+                <p>
+                    Tienes 3 medicamentos registrados actualmente.
+                </p>
+
+                <a href="calendario.html">
+                    Ver medicamentos →
+                </a>
+
+            </div>
+
+
+
+            <!-- CALENDARIO -->
+
+            <div class="card">
+
+                <div class="card-icon">
+
+                    <i class="fa-solid fa-calendar-days"></i>
+
+                </div>
+
+                <h2>
+                    Calendario
+                </h2>
+
+                <p>
+                    Revisa las fechas y horarios de tus medicamentos.
+                </p>
+
+                <a href="calendario.html">
+                    Abrir calendario →
+                </a>
+
+            </div>
+
+
+
+            <!-- RECORDATORIOS -->
+
+            <div class="card">
+
+                <div class="card-icon">
+
+                    <i class="fa-solid fa-bell"></i>
+
+                </div>
+
+                <h2>
+                    Recordatorios
+                </h2>
+
+                <p>
+                    Tienes 3 recordatorios configurados para tus medicamentos.
+                </p>
+
+                <a href="recordatorios.html">
+                    Ver recordatorios →
+                </a>
+
+            </div>
+
+        </section>
+
+
+
+        <h2 class="section-title">
+            Accesos rápidos
+        </h2>
+
+
+
+        <section class="quick-access">
+
+
+            <a
+                href="historial.html"
+                class="quick-card">
+
+                <i class="fa-solid fa-file-medical"></i>
+
+                <h3>
+                    Mi historial
+                </h3>
+
+                <p>
+                    Consulta tus registros médicos.
+                </p>
+
+            </a>
+
+
+
+            <a
+                href="calendario.html"
+                class="quick-card">
+
+                <i class="fa-solid fa-calendar-days"></i>
+
+                <h3>
+                    Calendario
+                </h3>
+
+                <p>
+                    Revisa tus medicamentos.
+                </p>
+
+            </a>
+
+
+
+            <a
+                href="recordatorios.html"
+                class="quick-card">
+
+                <i class="fa-solid fa-bell"></i>
+
+                <h3>
+                    Recordatorios
+                </h3>
+
+                <p>
+                    Consulta tus alarmas.
+                </p>
+
+            </a>
+
+        </section>
+
+
+    </main>
+
+</div>
+
+
+</body>
+
+</html>
