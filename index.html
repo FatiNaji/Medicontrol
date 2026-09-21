@@ -9,11 +9,9 @@
 
     <title>MediControl</title>
 
-
     <!-- ICONOS -->
     <link rel="stylesheet"
         href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
-
 
     <style>
 
@@ -27,14 +25,49 @@
             box-sizing: border-box;
         }
 
+        html {
+            scroll-behavior: smooth;
+        }
+
         body {
             font-family: Arial, Helvetica, sans-serif;
             background: #eef8ff;
             color: #17243b;
+            overflow-x: hidden;
+            animation: mcPageIn .55s ease both;
         }
 
         a {
             text-decoration: none;
+        }
+
+
+        /* =========================================
+           ANIMACIÓN GENERAL
+        ========================================= */
+
+        @keyframes mcPageIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes mcSectionIn {
+            from {
+                opacity: 0;
+                transform: translateY(16px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
 
 
@@ -55,11 +88,13 @@
             padding: 0 55px;
 
             border-bottom: 1px solid #e4edf5;
+
+            animation: mcSectionIn .65s cubic-bezier(.2, .75, .25, 1) both;
         }
 
 
         /* =========================================
-           LOGO REAL
+           LOGO
         ========================================= */
 
         .logo {
@@ -97,11 +132,14 @@
 
             font-size: 12px;
 
-            transition: 0.2s;
+            transition:
+                color .2s ease,
+                transform .2s ease;
         }
 
         nav a:hover {
             color: #0878d1;
+            transform: translateY(-1px);
         }
 
 
@@ -126,7 +164,19 @@
 
             font-weight: bold;
 
-            transition: 0.2s;
+            transition:
+                transform .22s ease,
+                box-shadow .22s ease,
+                background-color .22s ease,
+                color .22s ease,
+                border-color .22s ease,
+                filter .22s ease;
+
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+
+            gap: 7px;
         }
 
         .btn-login {
@@ -139,16 +189,34 @@
 
         .btn-login:hover {
             background: #f0f8ff;
+
+            transform: translateY(-2px);
+
+            box-shadow: 0 8px 20px rgba(8, 120, 209, .15);
         }
 
         .btn-register {
             color: white;
 
             background: #0878d1;
+
+            border: 1px solid #0878d1;
         }
 
         .btn-register:hover {
             background: #0667b4;
+
+            transform: translateY(-2px);
+
+            box-shadow: 0 8px 20px rgba(8, 120, 209, .20);
+        }
+
+        .btn-register i {
+            transition: transform .22s ease;
+        }
+
+        .btn-register:hover i {
+            transform: translateX(3px);
         }
 
 
@@ -177,6 +245,9 @@
                     #dff3ff,
                     transparent 38%
                 );
+
+            animation:
+                mcSectionIn .65s cubic-bezier(.2, .75, .25, 1) both;
         }
 
 
@@ -220,7 +291,12 @@
         ========================================= */
 
         .btn-comenzar {
-            display: inline-block;
+            display: inline-flex;
+
+            align-items: center;
+            justify-content: center;
+
+            gap: 7px;
 
             padding: 13px 29px;
 
@@ -230,6 +306,8 @@
 
             border-radius: 7px;
 
+            border: 1px solid #0878d1;
+
             font-size: 13px;
 
             font-weight: bold;
@@ -237,11 +315,34 @@
             box-shadow:
                 0 5px 15px rgba(8, 120, 209, 0.18);
 
-            transition: 0.2s;
+            transition:
+                transform .22s ease,
+                box-shadow .22s ease,
+                background-color .22s ease,
+                filter .22s ease;
         }
 
         .btn-comenzar:hover {
             background: #0667b4;
+
+            transform: translateY(-2px);
+
+            box-shadow:
+                0 8px 20px rgba(8, 120, 209, .20);
+
+            filter: brightness(1.03);
+        }
+
+        .btn-comenzar:active {
+            transform: translateY(0) scale(.98);
+        }
+
+        .btn-comenzar i {
+            transition: transform .22s ease;
+        }
+
+        .btn-comenzar:hover i {
+            transform: translateX(3px);
         }
 
 
@@ -309,6 +410,9 @@
                 0 8px 25px rgba(30, 90, 140, 0.12);
 
             z-index: 4;
+
+            animation:
+                mcSectionIn .8s ease both;
         }
 
 
@@ -342,11 +446,14 @@
             font-size: 23px;
 
             z-index: 4;
+
+            animation:
+                mcSectionIn .9s ease both;
         }
 
 
         /* =========================================
-           TARJETAS
+           TARJETAS DE SERVICIOS
         ========================================= */
 
         .services {
@@ -354,7 +461,7 @@
 
             margin: 0 auto;
 
-            padding: 5px 30px 45px;
+            padding: 5px 30px 55px;
 
             display: grid;
 
@@ -362,6 +469,9 @@
                 repeat(3, 1fr);
 
             gap: 18px;
+
+            animation:
+                mcSectionIn .75s cubic-bezier(.2, .75, .25, 1) both;
         }
 
 
@@ -381,14 +491,19 @@
             box-shadow:
                 0 5px 18px rgba(50, 100, 150, 0.07);
 
-            transition: 0.2s;
+            transition:
+                transform .25s ease,
+                box-shadow .25s ease,
+                border-color .25s ease;
         }
 
         .card:hover {
-            transform: translateY(-3px);
+            transform: translateY(-4px);
 
             box-shadow:
-                0 8px 22px rgba(50, 100, 150, 0.10);
+                0 12px 28px rgba(50, 100, 150, 0.13);
+
+            border-color: #d8eaf7;
         }
 
 
@@ -416,8 +531,21 @@
             justify-content: center;
 
             font-size: 22px;
+
+            transition:
+                transform .25s ease;
         }
 
+        .card:hover .card-icon {
+            transform:
+                scale(1.06)
+                rotate(-2deg);
+        }
+
+
+        /* =========================================
+           TEXTO DE LAS TARJETAS
+        ========================================= */
 
         .card h3 {
             color: #17243b;
@@ -441,6 +569,29 @@
 
 
         /* =========================================
+           FOOTER
+        ========================================= */
+
+        .site-footer {
+            background: #ffffff;
+
+            border-top: 1px solid #e4edf5;
+
+            padding: 22px 30px;
+
+            text-align: center;
+
+            color: #718096;
+
+            font-size: 11px;
+        }
+
+        .site-footer strong {
+            color: #17243b;
+        }
+
+
+        /* =========================================
            TABLET
         ========================================= */
 
@@ -456,6 +607,7 @@
 
             .hero {
                 padding: 30px;
+                gap: 25px;
             }
 
             .hero-text h1 {
@@ -478,9 +630,13 @@
             header {
                 height: auto;
 
+                min-height: 70px;
+
                 padding: 15px 18px;
 
                 gap: 10px;
+
+                flex-wrap: wrap;
             }
 
 
@@ -499,10 +655,22 @@
             }
 
 
-            /* OCULTAR MENÚ */
+            /* MENÚ */
 
             nav {
-                display: none;
+                order: 3;
+
+                width: 100%;
+
+                display: flex;
+
+                justify-content: center;
+
+                flex-wrap: wrap;
+
+                gap: 12px 18px;
+
+                padding-bottom: 4px;
             }
 
 
@@ -587,6 +755,67 @@
 
         }
 
+
+        /* =========================================
+           CELULAR PEQUEÑO
+        ========================================= */
+
+        @media (max-width: 480px) {
+
+            .header-buttons {
+                justify-content: center;
+
+                flex-wrap: wrap;
+            }
+
+            .header-buttons a {
+                flex: 1 1 120px;
+
+                text-align: center;
+            }
+
+            .hero {
+                padding-left: 15px;
+                padding-right: 15px;
+            }
+
+            .hero-text h1 {
+                font-size: 30px;
+            }
+
+            .card {
+                border-radius: 12px;
+            }
+
+            .btn-comenzar {
+                width: 100%;
+                max-width: 280px;
+            }
+
+        }
+
+
+        /* =========================================
+           ACCESIBILIDAD
+        ========================================= */
+
+        @media (prefers-reduced-motion: reduce) {
+
+            *,
+            *::before,
+            *::after {
+
+                animation-duration: .01ms !important;
+
+                animation-iteration-count: 1 !important;
+
+                transition-duration: .01ms !important;
+
+                scroll-behavior: auto !important;
+            }
+
+        }
+
     </style>
 
 </head>
@@ -601,8 +830,7 @@
 
     <header>
 
-
-        <!-- LOGO DE MEDICONTROL -->
+        <!-- LOGO -->
 
         <div class="logo">
 
@@ -617,19 +845,19 @@
 
         <nav>
 
-            <a href="#">
+            <a href="#inicio">
                 Inicio
             </a>
 
-            <a href="#">
+            <a href="#servicios">
                 Servicios
             </a>
 
-            <a href="#">
+            <a href="#servicios">
                 Sobre nosotros
             </a>
 
-            <a href="#">
+            <a href="#contacto">
                 Contacto
             </a>
 
@@ -653,6 +881,8 @@
                 href="registro.html"
                 class="btn-register">
 
+                <i class="fa-solid fa-user-plus"></i>
+
                 Registrarse
 
             </a>
@@ -674,7 +904,9 @@
              HERO
         ====================================== -->
 
-        <section class="hero">
+        <section
+            class="hero"
+            id="inicio">
 
 
             <!-- TEXTO -->
@@ -705,6 +937,8 @@
                     href="registro.html"
                     class="btn-comenzar">
 
+                    <i class="fa-solid fa-arrow-right"></i>
+
                     Comenzar
 
                 </a>
@@ -720,7 +954,7 @@
             <div class="hero-image">
 
 
-                <!-- CALENDARIO -->
+                <!-- CALENDARIO DECORATIVO -->
 
                 <div class="calendar">
 
@@ -729,7 +963,7 @@
                 </div>
 
 
-                <!-- TU IMAGEN doctora.jpeg -->
+                <!-- IMAGEN -->
 
                 <img
                     src="assets/doctora.jpeg"
@@ -754,7 +988,9 @@
              SERVICIOS
         ====================================== -->
 
-        <section class="services">
+        <section
+            class="services"
+            id="servicios">
 
 
             <!-- ================================
@@ -844,7 +1080,26 @@
 
         </section>
 
+
     </main>
+
+
+
+    <!-- =========================================
+         FOOTER
+    ========================================= -->
+
+    <footer
+        class="site-footer"
+        id="contacto">
+
+        <strong>
+            MediControl
+        </strong>
+
+        · Tu salud, en buenas manos.
+
+    </footer>
 
 
 </body>

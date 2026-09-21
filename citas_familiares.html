@@ -254,6 +254,36 @@
             color: #65758b;
         }
 
+
+        .resumen-citas{
+            display:grid;
+            grid-template-columns:repeat(3,1fr);
+            gap:15px;
+            margin-bottom:22px;
+        }
+        .resumen-cita{
+            background:white;
+            border:1px solid #e4edf5;
+            border-radius:12px;
+            padding:16px 18px;
+            box-shadow:0 3px 10px rgba(0,0,0,.04);
+        }
+        .resumen-cita span{
+            display:block;
+            color:#718096;
+            font-size:12px;
+            margin-bottom:6px;
+        }
+        .resumen-cita strong{
+            font-size:22px;
+            color:#0878d1;
+        }
+        @media (max-width:700px){
+            .resumen-citas{grid-template-columns:1fr;}
+            .cita{align-items:flex-start;}
+            .estado{margin-left:auto;}
+        }
+
         @media (max-width: 700px) {
             .sidebar {
                 position: relative;
@@ -280,6 +310,280 @@
             }
         }
     </style>
+
+<style id="medicontrol-pro">
+/* ===== MediControl Pro UI Upgrade ===== */
+:root{
+    --mc-primary:#0878d1;
+    --mc-primary-soft:#dcefff;
+    --mc-bg:#eef8ff;
+    --mc-text:#17243b;
+    --mc-muted:#65758b;
+    --mc-card:#ffffff;
+    --mc-border:#e2ebf3;
+    --mc-shadow:0 10px 30px rgba(25,65,100,.08);
+    --mc-shadow-hover:0 16px 38px rgba(25,65,100,.15);
+}
+
+html{scroll-behavior:smooth;}
+
+body{
+    animation:mcPageIn .55s ease both;
+}
+
+@keyframes mcPageIn{
+    from{opacity:0; transform:translateY(10px);}
+    to{opacity:1; transform:translateY(0);}
+}
+
+/* Entradas suaves */
+header,.hero,.content,.contenido,.principal,.login,.services,.cards,.quick-access,
+.calendar,.record,.history-box,.tarjeta,.seccion,.cita,.familia,.medication-card,
+.medicine-card,.lista-citas,.registro,.perfil,.contenedor,.recordatorios{
+    animation:mcSectionIn .65s cubic-bezier(.2,.75,.25,1) both;
+}
+
+@keyframes mcSectionIn{
+    from{opacity:0; transform:translateY(16px);}
+    to{opacity:1; transform:translateY(0);}
+}
+
+/* Botones y enlaces */
+button,
+.btn-login,.btn-register,.btn-comenzar,.btn-ingresar,.btn-agregar,
+.btn-view,.btn-ver,.boton,.btn-nueva,.btn-alarma{
+    transition:transform .22s ease, box-shadow .22s ease, background-color .22s ease,
+               color .22s ease, border-color .22s ease, filter .22s ease;
+}
+
+button:hover,
+.btn-login:hover,.btn-register:hover,.btn-comenzar:hover,.btn-ingresar:hover,
+.btn-agregar:hover,.btn-view:hover,.btn-ver:hover,.boton:hover,
+.btn-nueva:hover,.btn-alarma:hover{
+    transform:translateY(-2px);
+    box-shadow:0 8px 20px rgba(8,120,209,.20);
+    filter:brightness(1.03);
+}
+
+button:active,
+.btn-login:active,.btn-register:active,.btn-comenzar:active,.btn-ingresar:active,
+.btn-agregar:active,.btn-view:active,.btn-ver:active,.boton:active,
+.btn-nueva:active,.btn-alarma:active{
+    transform:translateY(0) scale(.98);
+}
+
+/* Tarjetas: profundidad */
+.card,.quick-card,.tarjeta,.seccion,.cita,.familia,.record,.history-box,
+.medicine-card,.medication-card,.registro,.tipo,.opcion,.perfil,.recordatorios,
+.calendar,.cita-principal,.barra-citas,.lista-citas,.lista,.detalle{
+    transition:transform .25s ease, box-shadow .25s ease, border-color .25s ease;
+}
+
+.card:hover,.quick-card:hover,.tarjeta:hover,.seccion:hover,.cita:hover,
+.familia:hover,.record:hover,.history-box:hover,.medicine-card:hover,
+.medication-card:hover,.registro:hover,.tipo:hover,.opcion:hover,
+.perfil:hover,.recordatorios:hover,.cita-principal:hover{
+    transform:translateY(-4px);
+    box-shadow:var(--mc-shadow-hover);
+}
+
+/* Menú más vivo */
+.menu a,nav a,.logout a{
+    transition:color .2s ease, background-color .2s ease, transform .2s ease;
+}
+.menu a:hover,.logout a:hover{transform:translateX(3px);}
+
+/* Iconos con microinteracción */
+.card-icon,.icono-medicina,.icono,.avatar{
+    transition:transform .25s ease;
+}
+.card:hover .card-icon,.quick-card:hover .card-icon,
+.tarjeta:hover .icono-medicina,.familia:hover .avatar{
+    transform:scale(1.06) rotate(-2deg);
+}
+
+/* Inputs */
+input,select,textarea{
+    transition:border-color .2s ease, box-shadow .2s ease, background-color .2s ease;
+}
+input:focus,select:focus,textarea:focus{
+    outline:none;
+    border-color:var(--mc-primary);
+    box-shadow:0 0 0 3px rgba(8,120,209,.12);
+}
+
+/* Respeto por accesibilidad */
+@media (prefers-reduced-motion: reduce){
+    *,*::before,*::after{
+        animation-duration:.01ms !important;
+        animation-iteration-count:1 !important;
+        transition-duration:.01ms !important;
+        scroll-behavior:auto !important;
+    }
+}
+
+/* ===== Responsive real para celular ===== */
+@media (max-width: 900px){
+    header{
+        padding:0 24px;
+    }
+    nav{gap:16px;}
+    .hero{gap:25px;}
+    .content,.contenido{
+        padding:25px 22px;
+    }
+}
+
+@media (max-width: 768px){
+    body{overflow-x:hidden;}
+
+    /* Sidebars pasan arriba y dejan de ocupar toda la pantalla */
+    .sidebar{
+        position:relative !important;
+        top:auto !important;
+        left:auto !important;
+        bottom:auto !important;
+        width:100% !important;
+        min-height:auto !important;
+        height:auto !important;
+        padding:12px 14px !important;
+        border-right:none !important;
+        border-bottom:1px solid var(--mc-border);
+        z-index:10;
+    }
+
+    .app{display:block !important;}
+
+    .sidebar .logo{
+        text-align:center;
+        margin-bottom:10px !important;
+        padding:4px 5px 10px !important;
+    }
+
+    .sidebar .logo img{
+        max-width:150px;
+        max-height:48px;
+        object-fit:contain;
+    }
+
+    .menu{
+        flex-direction:row !important;
+        flex-wrap:wrap !important;
+        gap:6px !important;
+        justify-content:center;
+    }
+
+    .menu a{
+        flex:0 1 auto;
+        padding:9px 10px !important;
+        font-size:12px !important;
+    }
+
+    .menu a i{width:auto !important;}
+
+    .logout{
+        position:static !important;
+        margin-top:7px !important;
+        left:auto !important;
+        right:auto !important;
+        bottom:auto !important;
+    }
+
+    .logout a,.cerrar{
+        justify-content:center;
+        padding:8px 10px !important;
+    }
+
+    .content,.contenido{
+        margin-left:0 !important;
+        width:100% !important;
+        padding:22px 16px !important;
+    }
+
+    .encabezado,.page-header,.hero{
+        flex-direction:column !important;
+        align-items:flex-start !important;
+    }
+
+    .header-buttons{
+        width:100%;
+        justify-content:flex-end;
+    }
+
+    /* Landing */
+    header{
+        height:auto;
+        min-height:70px;
+        flex-wrap:wrap;
+        gap:10px;
+        padding:12px 18px;
+    }
+
+    .logo{max-width:145px;}
+    nav{
+        order:3;
+        width:100%;
+        justify-content:center;
+        flex-wrap:wrap;
+        gap:12px 18px;
+        padding-bottom:4px;
+    }
+
+    .hero-text h1{font-size:clamp(30px,8vw,46px) !important;}
+    .hero-image{width:100% !important;}
+    .services{grid-template-columns:1fr !important;}
+    .cards{grid-template-columns:1fr !important;}
+    .quick-access{grid-template-columns:1fr !important;}
+
+    /* Tablas/listas */
+    .citas,.familiares,.recordatorios,.records,.lista-citas,
+    .medications,.medicamentos{
+        width:100%;
+        overflow-x:auto;
+    }
+
+    .encabezado h1,.page-header h1{font-size:24px !important;}
+
+    /* Formularios */
+    .login,.principal,.contenedor{
+        width:min(100%, 520px) !important;
+        margin-left:auto !important;
+        margin-right:auto !important;
+    }
+
+    input,select,textarea{max-width:100%;}
+}
+
+@media (max-width: 480px){
+    .header-buttons{
+        justify-content:center;
+        flex-wrap:wrap;
+    }
+
+    .header-buttons a{
+        flex:1 1 120px;
+        text-align:center;
+    }
+
+    .menu a span{display:none;}
+    .menu a{
+        min-width:42px;
+        justify-content:center;
+    }
+
+    .content,.contenido{padding:18px 12px !important;}
+
+    .card,.quick-card,.tarjeta,.seccion,.cita,.familia,.record,
+    .history-box,.medicine-card,.medication-card,.registro,.perfil{
+        border-radius:12px !important;
+    }
+
+    .btn-agregar,.btn-nueva,.btn-comenzar,.btn-ingresar{
+        width:100%;
+    }
+}
+</style>
+
 </head>
 
 <body>
@@ -337,6 +641,22 @@
             <h1>Citas de familiares</h1>
             <p>Consulta y gestiona las citas de tus familiares.</p>
         </div>
+
+
+        <section class="resumen-citas">
+            <div class="resumen-cita">
+                <span>Próximas citas</span>
+                <strong id="totalProximas">2</strong>
+            </div>
+            <div class="resumen-cita">
+                <span>Citas confirmadas</span>
+                <strong id="totalConfirmadas">1</strong>
+            </div>
+            <div class="resumen-cita">
+                <span>Citas pendientes</span>
+                <strong id="totalPendientes">1</strong>
+            </div>
+        </section>
 
         <div class="selector">
             <label for="familiar">Seleccionar familiar</label>
@@ -433,23 +753,96 @@
 
     <script>
         function nuevaCita() {
-            alert("Aquí podrás registrar una nueva cita para el familiar seleccionado.");
+            const familiar = document.getElementById("familiar");
+            const nombreFamiliar = familiar.options[familiar.selectedIndex].text;
+
+            const especialidad = prompt("Ingresa la especialidad de la nueva cita:");
+            if (!especialidad || !especialidad.trim()) return;
+
+            const fecha = prompt("Ingresa la fecha (DD/MM):");
+            if (!fecha || !fecha.trim()) return;
+
+            const hora = prompt("Ingresa la hora (ej. 10:30 a. m.):");
+            if (!hora || !hora.trim()) return;
+
+            const medico = prompt("Ingresa el nombre del médico:");
+            if (!medico || !medico.trim()) return;
+
+            const partes = fecha.trim().split("/");
+            const dia = partes[0] || "--";
+            const mes = partes[1] || "--";
+
+            const cita = document.createElement("article");
+            cita.className = "cita";
+            cita.innerHTML = `
+                <div class="fecha">
+                    <strong>${dia}</strong>
+                    <span>${mes}</span>
+                </div>
+
+                <div class="datos-cita">
+                    <h3>${especialidad.trim()}</h3>
+                    <p>${medico.trim()}</p>
+                    <p>${hora.trim()}</p>
+                    <p style="font-size:11px;color:#8a98a9;">${nombreFamiliar}</p>
+                </div>
+
+                <span class="estado pendiente">Pendiente</span>
+
+                <button class="menu-cita" onclick="opcionesCita('${especialidad.trim().replace(/'/g, "\\'")}')">
+                    <i class="fa-solid fa-ellipsis-vertical"></i>
+                </button>
+            `;
+
+            document.getElementById("proximas").appendChild(cita);
+
+            const total = document.querySelectorAll("#proximas .cita").length;
+            const pendientes = document.querySelectorAll("#proximas .pendiente").length;
+            const confirmadas = document.querySelectorAll("#proximas .confirmada").length;
+
+            document.getElementById("totalProximas").textContent = total;
+            document.getElementById("totalPendientes").textContent = pendientes;
+            document.getElementById("totalConfirmadas").textContent = confirmadas;
+
+            alert("Cita agregada correctamente para " + nombreFamiliar + ".");
         }
 
         function opcionesCita(nombre) {
-            alert("Opciones para la cita: " + nombre);
+            const accion = prompt(
+                "Cita: " + nombre + "\n\nEscribe una opción:\n1. Ver detalle\n2. Cancelar"
+            );
+
+            if (accion === "1") {
+                alert("La cita de " + nombre + " está registrada en MediControl.");
+            } else if (accion === "2") {
+                if (confirm("¿Deseas cancelar esta cita?")) {
+                    const botones = document.querySelectorAll(".menu-cita");
+                    botones.forEach(function(boton) {
+                        const titulo = boton.parentElement.querySelector("h3");
+                        if (titulo && titulo.textContent === nombre) {
+                            boton.parentElement.remove();
+                        }
+                    });
+
+                    const total = document.querySelectorAll("#proximas .cita").length;
+                    const pendientes = document.querySelectorAll("#proximas .pendiente").length;
+                    const confirmadas = document.querySelectorAll("#proximas .confirmada").length;
+
+                    document.getElementById("totalProximas").textContent = total;
+                    document.getElementById("totalPendientes").textContent = pendientes;
+                    document.getElementById("totalConfirmadas").textContent = confirmadas;
+
+                    alert("Cita cancelada.");
+                }
+            }
         }
 
         function cambiarFamiliar() {
-            const familiar = document.getElementById("familiar").value;
+            const select = document.getElementById("familiar");
+            const nombre = select.options[select.selectedIndex].text;
 
-            if (familiar === "luciana") {
-                alert("Mostrando las citas de Luciana Gutiérrez.");
-            } else if (familiar === "lucia") {
-                alert("Mostrando las citas de Lucía Gutiérrez.");
-            } else {
-                alert("Mostrando las citas de María Salas.");
-            }
+            document.querySelector(".encabezado p").textContent =
+                "Consulta y gestiona las citas de " + nombre + ".";
         }
 
         function mostrarProximas(boton) {

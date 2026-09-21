@@ -2,11 +2,13 @@
 <html lang="es">
 
 <head>
+
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <title>MediControl - Inicio</title>
 
+    <!-- ICONOS -->
     <link rel="stylesheet"
         href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
 
@@ -22,18 +24,60 @@
             font-family: Arial, Helvetica, sans-serif;
             background: #eef8ff;
             color: #17243b;
+            overflow-x: hidden;
         }
 
         a {
             text-decoration: none;
         }
 
+
+        /* =========================================
+           ANIMACIONES
+        ========================================= */
+
+        body {
+            animation: mcPageIn .55s ease both;
+        }
+
+        @keyframes mcPageIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes mcSectionIn {
+            from {
+                opacity: 0;
+                transform: translateY(16px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+
+        /* =========================================
+           APP
+        ========================================= */
+
         .app {
             display: flex;
             min-height: 100vh;
         }
 
-        /* SIDEBAR */
+
+        /* =========================================
+           SIDEBAR
+        ========================================= */
 
         .sidebar {
             width: 220px;
@@ -50,7 +94,14 @@
             left: 0;
             top: 0;
             bottom: 0;
+
+            animation: mcSectionIn .65s ease both;
         }
+
+
+        /* =========================================
+           LOGO
+        ========================================= */
 
         .logo {
             padding: 5px 7px 22px;
@@ -61,7 +112,10 @@
             height: auto;
         }
 
-        /* MENU */
+
+        /* =========================================
+           MENÚ
+        ========================================= */
 
         .menu {
             display: flex;
@@ -82,6 +136,11 @@
             color: #566579;
 
             font-size: 13px;
+
+            transition:
+                color .22s ease,
+                background-color .22s ease,
+                transform .22s ease;
         }
 
         .menu a i {
@@ -92,6 +151,7 @@
         .menu a:hover {
             background: #edf7ff;
             color: #0878d1;
+            transform: translateX(3px);
         }
 
         .menu a.active {
@@ -100,7 +160,10 @@
             font-weight: bold;
         }
 
-        /* LOGOUT */
+
+        /* =========================================
+           CERRAR SESIÓN
+        ========================================= */
 
         .logout {
             position: absolute;
@@ -122,9 +185,23 @@
             color: #596579;
 
             font-size: 13px;
+
+            transition:
+                color .22s ease,
+                background-color .22s ease,
+                transform .22s ease;
         }
 
-        /* CONTENIDO */
+        .logout a:hover {
+            color: #0878d1;
+            background: #edf7ff;
+            transform: translateX(3px);
+        }
+
+
+        /* =========================================
+           CONTENIDO
+        ========================================= */
 
         .content {
             margin-left: 220px;
@@ -132,7 +209,15 @@
             width: calc(100% - 220px);
 
             padding: 30px 35px;
+
+            animation:
+                mcSectionIn .65s cubic-bezier(.2,.75,.25,1) both;
         }
+
+
+        /* =========================================
+           BIENVENIDA
+        ========================================= */
 
         .welcome {
             margin-bottom: 25px;
@@ -148,7 +233,10 @@
             color: #68778a;
         }
 
-        /* TARJETAS */
+
+        /* =========================================
+           TARJETAS PRINCIPALES
+        ========================================= */
 
         .cards {
             display: grid;
@@ -159,7 +247,11 @@
             gap: 15px;
 
             margin-bottom: 28px;
+
+            animation:
+                mcSectionIn .75s cubic-bezier(.2,.75,.25,1) both;
         }
+
 
         .card {
             background: white;
@@ -169,7 +261,26 @@
             border-radius: 10px;
 
             padding: 18px;
+
+            transition:
+                transform .25s ease,
+                box-shadow .25s ease,
+                border-color .25s ease;
         }
+
+        .card:hover {
+            transform: translateY(-4px);
+
+            border-color: #b9dcf4;
+
+            box-shadow:
+                0 12px 28px rgba(25,65,100,.12);
+        }
+
+
+        /* =========================================
+           ICONOS
+        ========================================= */
 
         .card-icon {
             width: 38px;
@@ -188,7 +299,21 @@
             justify-content: center;
 
             margin-bottom: 12px;
+
+            transition:
+                transform .25s ease;
         }
+
+        .card:hover .card-icon {
+            transform:
+                scale(1.08)
+                rotate(-2deg);
+        }
+
+
+        /* =========================================
+           TEXTO TARJETAS
+        ========================================= */
 
         .card h2 {
             font-size: 15px;
@@ -214,9 +339,21 @@
             font-size: 10px;
 
             font-weight: bold;
+
+            transition:
+                transform .2s ease,
+                color .2s ease;
         }
 
-        /* ACCESOS */
+        .card a:hover {
+            color: #0667b4;
+            transform: translateX(3px);
+        }
+
+
+        /* =========================================
+           ACCESOS RÁPIDOS
+        ========================================= */
 
         .section-title {
             font-size: 18px;
@@ -246,13 +383,19 @@
 
             color: #34465c;
 
-            transition: .2s;
+            transition:
+                transform .25s ease,
+                box-shadow .25s ease,
+                border-color .25s ease;
         }
 
         .quick-card:hover {
             border-color: #b9dcf4;
 
-            transform: translateY(-2px);
+            transform: translateY(-4px);
+
+            box-shadow:
+                0 12px 28px rgba(25,65,100,.12);
         }
 
         .quick-card i {
@@ -261,6 +404,15 @@
             color: #0878d1;
 
             margin-bottom: 10px;
+
+            transition:
+                transform .25s ease;
+        }
+
+        .quick-card:hover i {
+            transform:
+                scale(1.08)
+                rotate(-2deg);
         }
 
         .quick-card h3 {
@@ -275,7 +427,10 @@
             margin-top: 5px;
         }
 
-        /* RESPONSIVE */
+
+        /* =========================================
+           RESPONSIVE
+        ========================================= */
 
         @media (max-width: 850px) {
 
@@ -296,10 +451,11 @@
 
         }
 
-        @media (max-width: 650px) {
 
-            .app {
-                display: block;
+        @media (max-width: 768px) {
+
+            body {
+                overflow-x: hidden;
             }
 
             .sidebar {
@@ -312,24 +468,50 @@
                 border-right: none;
 
                 border-bottom: 1px solid #e2ebf3;
+
+                padding: 12px 14px;
+            }
+
+            .logo {
+                text-align: center;
+
+                padding: 4px 5px 10px;
+            }
+
+            .logo img {
+                max-width: 150px;
+                max-height: 48px;
+                object-fit: contain;
             }
 
             .menu {
                 flex-direction: row;
 
-                overflow-x: auto;
+                flex-wrap: wrap;
+
+                gap: 6px;
+
+                justify-content: center;
             }
 
             .menu a {
-                flex-shrink: 0;
+                padding: 9px 10px;
+
+                font-size: 12px;
             }
 
-            .menu a span {
-                display: none;
+            .menu a i {
+                width: auto;
             }
 
             .logout {
-                display: none;
+                position: static;
+
+                margin-top: 7px;
+            }
+
+            .logout a {
+                justify-content: center;
             }
 
             .content {
@@ -337,7 +519,51 @@
 
                 width: 100%;
 
-                padding: 20px 15px;
+                padding: 22px 16px;
+            }
+
+        }
+
+
+        @media (max-width: 480px) {
+
+            .menu a span {
+                display: none;
+            }
+
+            .menu a {
+                min-width: 42px;
+
+                justify-content: center;
+            }
+
+            .content {
+                padding: 18px 12px;
+            }
+
+            .card,
+            .quick-card {
+                border-radius: 12px;
+            }
+
+        }
+
+
+        /* =========================================
+           ACCESIBILIDAD
+        ========================================= */
+
+        @media (prefers-reduced-motion: reduce) {
+
+            *,
+            *::before,
+            *::after {
+
+                animation-duration: .01ms !important;
+
+                animation-iteration-count: 1 !important;
+
+                transition-duration: .01ms !important;
             }
 
         }
@@ -360,6 +586,8 @@
     <aside class="sidebar">
 
 
+        <!-- LOGO -->
+
         <div class="logo">
 
             <img
@@ -368,6 +596,8 @@
 
         </div>
 
+
+        <!-- MENÚ -->
 
         <nav class="menu">
 
@@ -402,7 +632,7 @@
 
             <!-- TRATAMIENTOS -->
 
-            <a href="#">
+            <a href="tratamientos.html">
 
                 <i class="fa-solid fa-pills"></i>
 
@@ -441,7 +671,7 @@
 
             <!-- PERFIL -->
 
-            <a href="#">
+            <a href="perfil_paciente.html">
 
                 <i class="fa-solid fa-user"></i>
 
@@ -451,8 +681,11 @@
 
             </a>
 
+
         </nav>
 
+
+        <!-- CERRAR SESIÓN -->
 
         <div class="logout">
 
@@ -479,6 +712,8 @@
     <main class="content">
 
 
+        <!-- BIENVENIDA -->
+
         <div class="welcome">
 
             <h1>
@@ -493,7 +728,9 @@
 
 
 
-        <!-- TARJETAS -->
+        <!-- =================================
+             TARJETAS PRINCIPALES
+        ================================= -->
 
         <section class="cards">
 
@@ -516,7 +753,7 @@
                     Tienes 3 medicamentos registrados actualmente.
                 </p>
 
-                <a href="calendario.html">
+                <a href="medicamentos.html">
                     Ver medicamentos →
                 </a>
 
@@ -574,18 +811,24 @@
 
             </div>
 
+
         </section>
 
 
+
+        <!-- =================================
+             ACCESOS RÁPIDOS
+        ================================= -->
 
         <h2 class="section-title">
             Accesos rápidos
         </h2>
 
 
-
         <section class="quick-access">
 
+
+            <!-- HISTORIAL -->
 
             <a
                 href="historial.html"
@@ -605,6 +848,8 @@
 
 
 
+            <!-- CALENDARIO -->
+
             <a
                 href="calendario.html"
                 class="quick-card">
@@ -623,6 +868,8 @@
 
 
 
+            <!-- RECORDATORIOS -->
+
             <a
                 href="recordatorios.html"
                 class="quick-card">
@@ -639,10 +886,12 @@
 
             </a>
 
+
         </section>
 
 
     </main>
+
 
 </div>
 
